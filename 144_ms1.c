@@ -29,9 +29,9 @@ double getDoubleLimited(double lowerLimit, double upperLimit);
 // ----------------------------------------
 // place function DEFINITIONS below here...
 // --------------------------------
-void welcome(void){
+void welcome(void) {
 
-printf("---=== Grocery Inventory System ===---\n");
+	printf("---=== Grocery Inventory System ===---\n");
 }
 
 void printTitle(void) {
@@ -46,7 +46,9 @@ void printFooter(double gTotal) {
 }
 
 void flushKeyboard(void) {
-	while (getchar() != '\n'); 
+
+	while (getchar() != '\n') 
+		;
 }
 
 void pause(void) {
@@ -55,13 +57,17 @@ void pause(void) {
 }
 
 int getInt(void) {
-	int x;
-	char newLine;
-	printf("Enter an integer: ");
-	scanf("%d%c", &x, &newLine); 
-		flushKeyboard();
+	int value;
+	char newLine = 'x';
 
-	printf("%d", x);
+		printf("Enter an integer: ");
+		scanf("%d%c", &value, &newLine);
+
+		while (newLine != '\n'){
+			printf("Invalid interger, please try again: ");
+			scanf("%d%c", &value, &newLine);
+	}
+	printf("%d\n", value);
 }
 
 int main() {
