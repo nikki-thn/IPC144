@@ -71,6 +71,7 @@ int getInt (void) {
 
 		if (checkNewLine != '\n' || errorCheck == 0) {
 			printf("Invalid interger, please try again: ");
+			flushKeyboard();
 		}
 		else {
 			done = 0;
@@ -89,7 +90,7 @@ int getIntLimited(int lowerLimit, int upperLimit) {
 		scanf("%d", &limitCheck);
 
 		if (limitCheck > upperLimit || limitCheck < lowerLimit) {
-			printf("Invalid value, %d < value < %d", lowerLimit, upperLimit);
+			printf("Invalid value, %d < value < %d: ", lowerLimit, upperLimit);
 		}
 		else {
 			done = 0;
@@ -112,8 +113,9 @@ double getDouble (void) {
 
 		errorCheck = scanf("%lf%c", &value, &checkNewLine);
 
-		if (checkNewLine != '\n' || value == 0) {
-			printf("Invalid interger, please try again: ");
+		if (checkNewLine != '\n' || errorCheck == 0) {
+			printf("Invalid number, please try again: ");
+			flushKeyboard();
 		}
 		else {
 			done = 0;
@@ -133,7 +135,7 @@ double getDoubleLimited (double lowerLimit, double upperLimit) {
 		scanf("%lf", &limitCheck);
 
 		if (limitCheck > upperLimit || limitCheck < lowerLimit) {
-			printf("Invalid value, %d < value < %d", lowerLimit, upperLimit);
+			printf("Invalid value, %lf < value < %lf: ", lowerLimit, upperLimit);
 		}
 		else {
 			done = 0;
