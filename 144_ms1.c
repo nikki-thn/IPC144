@@ -263,6 +263,8 @@ int main(void) {
 	printf("You entered: %0.2lf\n", dVal);
 	printf("End of tester program for IO tools!\n");
 
+	welcome();
+
 	GroceryInventorySystem();
 
 	printf("End of tester program for milestone one!\n");
