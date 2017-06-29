@@ -172,7 +172,7 @@ int menu(void) {
 
 	printf("1- List all items\n2 - Search by SKU\n3 - Checkout an item\n");
 	printf("4 - Stock an item\n5 - Add new item or update item\n");
-	printf("6 - Delete item\n7 - Search by name\n0 - Exit program\n\n");
+	printf("6 - Delete item\n7 - Search by name\n0 - Exit program\n> ");
 
 	int choice;
 	choice = getIntLimited(0, 7);
@@ -189,14 +189,11 @@ void GroceryInventorySystem(void) {
 	while (flag == 0) {
 		option = menu();
 
-		printf("%d\n", option);
-
 		switch (option) {
 
 		case 0:
 			printf("Exit the program? (Y)es/(N)o: ");
 			flag = yes();
-			printf("%d\n", flag);
 			break;
 
 		case 1:
@@ -226,8 +223,9 @@ void GroceryInventorySystem(void) {
 		case 7:
 			printf("Search by name under construction!\n");
 			break;
-
 		}
+
+		pause();
 	}
 }
 
@@ -263,6 +261,7 @@ int main(void) {
 	printf("Enter a floating point number between 10.00 and 20.00: ");
 	dVal = getDoubleLimited(10.0, 20.0);
 	printf("You entered: %0.2lf\n", dVal);
+	printf("End of tester program for IO tools!\n");
 
 	GroceryInventorySystem();
 
