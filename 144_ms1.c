@@ -20,7 +20,7 @@ double getDoubleLimited(double lowerLimit, double upperLimit);
 
 // application user interface function PROTOTYPES:
 int yes(void);
-void GroceryInventorySystem (void);
+void GroceryInventorySystem(void);
 int menu(void);
 
 
@@ -80,7 +80,7 @@ int getInt(void) {
 }
 
 int getIntLimited(int lowerLimit, int upperLimit) {
-	
+
 	int limitCheck;
 	int done = 1;
 
@@ -144,27 +144,30 @@ double getDoubleLimited(double lowerLimit, double upperLimit) {
 	return limitCheck;
 }
 
+
 // app interface
 
 int yes(void) {
+
 	char yesOrNo;
 	int done = 0;
 
 	scanf(" %c", &yesOrNo);
-	if (yesOrNo != 'y', 'Y', 'n', 'N') {
+
+	while (yesOrNo != 'y' && yesOrNo != 'Y' && yesOrNo != 'n' && yesOrNo != 'N') {
 		printf("Only (Y)es or (N)o are acceptable: ");
-		flushKeyboard();
+		scanf(" %c", &yesOrNo);
 	}
-	else if (yesOrNo == 'y', 'Y') {
+
+	if (yesOrNo == 'y' || yesOrNo == 'Y') {
 		done = 1;
 	}
-	else if (yesOrNo == 'n', 'N') {
+	else if (yesOrNo == 'n' || yesOrNo == 'N') {
 		done = 0;
 	}
 
 	return done;
 }
-
 int menu(void) {
 
 	printf("1- List all items\n2 - Search by SKU\n3 - Checkout an item\n");
@@ -175,57 +178,58 @@ int menu(void) {
 	choice = getIntLimited(0, 7);
 
 	return choice;
-	
+
 }
 
-void GroceryInventorySystem (void) {
-	int done = 0;
+void GroceryInventorySystem(void) {
+	int flag = 0;
 	int option;
 
-	option = menu();
 
-	while (done = 0) {
+	while (flag == 0) {
+		option = menu();
 
-			switch (option) {
+		printf("%d\n", option);
 
-			case 0:
+		switch (option) {
+
+		case 0:
 			printf("Exit the program? (Y)es/(N)o: ");
-			done = yes();
+			flag = yes();
+			printf("%d\n", flag);
 			break;
 
-			case 1:
-				printf("List Items under construction!\n");
-				break;
+		case 1:
+			printf("List Items under construction!\n");
+			break;
 
-			case 2:
-				printf("Search Items under construction!\n");
-				break;
+		case 2:
+			printf("Search Items under construction!\n");
+			break;
 
-			case 3:
-				printf("Checkout Items under construction!\n");
-				break;
+		case 3:
+			printf("Checkout Items under construction!\n");
+			break;
 
-			case 4:
-				printf("Stock Items under construction!\n");
-				break;
+		case 4:
+			printf("Stock Items under construction!\n");
+			break;
 
-			case 5:
-				printf("Add/Update Items under construction!\n");
-				break;
+		case 5:
+			printf("Add/Update Items under construction!\n");
+			break;
 
-			case 6:
-				printf("Delete Items under construction!\n");
-				break;
+		case 6:
+			printf("Delete Items under construction!\n");
+			break;
 
-			case 7:
-				printf("Search by name under construction!\n");
-				break;
+		case 7:
+			printf("Search by name under construction!\n");
+			break;
 
-			}
 		}
 	}
-
-
+}
 
 
 
@@ -234,61 +238,35 @@ int main(void) {
 	double dVal;
 	welcome();
 
-	// uncommnet each tester as you complete the develpment of that section:
-
-	// testing printTitle() 
 	printf("listing header and footer with grand total:\n");
 	printTitle();
-	//---------------------------------------------------------------
-
-
-	// Testing printFooter()  
-
+	
 	printFooter(1234.5678);
 	printf("listing header and footer without grand total:\n");
 	printTitle();
 	printFooter(-1);
-	//---------------------------------------------------------------
 
-	// Testing Pause() and flushKeyboard() 
 	pause();
-	//---------------------------------------------------------------
 
-
-	// Testing getInt() 
 	printf("Enter an integer: ");
 	iVal = getInt();
 	printf("You entered: %d\n", iVal);
-	//---------------------------------------------------------------
 
-
-	// Testing Get Int Limited 
 	printf("Enter an integer between 10 and 20: ");
 	iVal = getIntLimited(10, 20);
 	printf("Your entered %d\n", iVal);
-	//---------------------------------------------------------------
 
-
-	// Testing Get Double 
 	printf("Enter a floating point number: ");
 	dVal = getDouble();
 	printf("You entered: %0.2lf\n", dVal);
-	//---------------------------------------------------------------
 
-
-	// Tesing Get Double Limited 
 	printf("Enter a floating point number between 10.00 and 20.00: ");
 	dVal = getDoubleLimited(10.0, 20.0);
 	printf("You entered: %0.2lf\n", dVal);
-	//---------------------------------------------------------------
 
-
-	// testing the App interface
 	GroceryInventorySystem();
-	//---------------------------------------------------------------
 
 	printf("End of tester program for milestone one!\n");
-
 
 	return 0;
 }
