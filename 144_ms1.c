@@ -150,7 +150,6 @@ double getDoubleLimited(double lowerLimit, double upperLimit) {
 int yes(void) {
 
 	char yesOrNo;
-	int done = 0;
 
 	scanf(" %c", &yesOrNo);
 
@@ -160,13 +159,12 @@ int yes(void) {
 	}
 
 	if (yesOrNo == 'y' || yesOrNo == 'Y') {
-		done = 1;
+		return 1;
 	}
 	else if (yesOrNo == 'n' || yesOrNo == 'N') {
-		done = 0;
+		return 0;
 	}
 
-	return done;
 }
 int menu(void) {
 
