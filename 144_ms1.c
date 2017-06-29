@@ -20,6 +20,45 @@ double getDoubleLimited(double lowerLimit, double upperLimit);
 
 
 // application user interface function PROTOTYPES:
+int yes(void);
+void GroceryInventorySystem(void);
+int menu(void);
+
+// app interface
+
+int yes(void) {
+	char yesOrNo;
+	int done;
+
+	scanf(" %c", &yesOrNo);
+	if (yesOrNo != 'y', 'Y', 'n', 'N') {
+		printf("Only (Y)es or (N)o are acceptable: ");
+		flushKeyboard();
+	}
+	else if (yesOrNo == 'y', 'Y') {
+		done = 1;
+	}
+	else if (yesOrNo == 'n', 'N') {
+		done = 0;
+	}
+
+	return done;
+
+}
+
+
+void GroceryInventorySystem(void) {
+
+}
+
+int menu(void) {
+
+	int choice;
+	choice = getIntLimited(0, 7);
+
+	switch 
+}
+
 
 
 
@@ -57,7 +96,7 @@ void flushKeyboard(void) {
 		;
 }
 
-int getInt (void) {
+int getInt(void) {
 
 	int value;
 	int errorCheck;
@@ -67,7 +106,7 @@ int getInt (void) {
 
 	while (done == 1) {
 
-	errorCheck = scanf("%d%c", &value, &checkNewLine);
+		errorCheck = scanf("%d%c", &value, &checkNewLine);
 
 		if (checkNewLine != '\n' || errorCheck == 0) {
 			printf("Invalid interger, please try again: ");
@@ -101,7 +140,7 @@ int getIntLimited(int lowerLimit, int upperLimit) {
 	return limitCheck;
 }
 
-double getDouble (void) {
+double getDouble(void) {
 
 	double value;
 	double errorCheck;
@@ -125,7 +164,7 @@ double getDouble (void) {
 	return value;
 }
 
-double getDoubleLimited (double lowerLimit, double upperLimit) {
+double getDoubleLimited(double lowerLimit, double upperLimit) {
 
 	double limitCheck;
 	int done = 1;
@@ -198,6 +237,13 @@ int main(void) {
 	dVal = getDoubleLimited(10.0, 20.0);
 	printf("You entered: %0.2lf\n", dVal);
 	//---------------------------------------------------------------
+
+
+	// testing the App interface
+	GroceryInventorySystem();
+	//---------------------------------------------------------------
+
+	printf("End of tester program for milestone one!\n");
 
 
 	return 0;
