@@ -4,6 +4,9 @@
 // ---------------------------------------
 // place function PROTOTYPES below here...
 // ---------------------------------------
+
+
+// user interface tools function PROTOTYPES:
 void welcome(void);
 void printTitle(void);
 void printFooter(double gTotal);
@@ -15,58 +18,15 @@ int getIntLimited(int lowerLimit, int upperLimit);
 double getDoubleLimited(double lowerLimit, double upperLimit);
 
 
-// user interface tools function PROTOTYPES:
-
-
-
 // application user interface function PROTOTYPES:
 int yes(void);
-void GroceryInventorySystem(void);
+void GroceryInventorySystem (void);
 int menu(void);
-
-// app interface
-
-int yes(void) {
-	char yesOrNo;
-	int done;
-
-	scanf(" %c", &yesOrNo);
-	if (yesOrNo != 'y', 'Y', 'n', 'N') {
-		printf("Only (Y)es or (N)o are acceptable: ");
-		flushKeyboard();
-	}
-	else if (yesOrNo == 'y', 'Y') {
-		done = 1;
-	}
-	else if (yesOrNo == 'n', 'N') {
-		done = 0;
-	}
-
-	return done;
-
-}
-
-
-void GroceryInventorySystem(void) {
-
-}
-
-int menu(void) {
-
-	int choice;
-	choice = getIntLimited(0, 7);
-
-	switch 
-}
-
-
-
-
 
 
 // ----------------------------------------
 // place function DEFINITIONS below here...
-// --------------------------------
+// ----------------------------------------
 void welcome(void) {
 
 	printf("---=== Grocery Inventory System ===---\n");
@@ -103,7 +63,6 @@ int getInt(void) {
 	char checkNewLine;
 	int done = 1;
 
-
 	while (done == 1) {
 
 		errorCheck = scanf("%d%c", &value, &checkNewLine);
@@ -121,12 +80,13 @@ int getInt(void) {
 }
 
 int getIntLimited(int lowerLimit, int upperLimit) {
+	
 	int limitCheck;
 	int done = 1;
 
 	while (done == 1) {
 
-		scanf("%d", &limitCheck);
+		limitCheck = getInt();
 
 		if (limitCheck > upperLimit || limitCheck < lowerLimit) {
 			printf("Invalid value, %d < value < %d: ", lowerLimit, upperLimit);
@@ -146,7 +106,6 @@ double getDouble(void) {
 	double errorCheck;
 	char checkNewLine;
 	int done = 1;
-
 
 	while (done == 1) {
 
@@ -171,7 +130,7 @@ double getDoubleLimited(double lowerLimit, double upperLimit) {
 
 	while (done == 1) {
 
-		scanf("%lf", &limitCheck);
+		limitCheck = getDouble();
 
 		if (limitCheck > upperLimit || limitCheck < lowerLimit) {
 			printf("Invalid value, %lf < value < %lf: ", lowerLimit, upperLimit);
@@ -184,6 +143,91 @@ double getDoubleLimited(double lowerLimit, double upperLimit) {
 
 	return limitCheck;
 }
+
+// app interface
+
+int yes(void) {
+	char yesOrNo;
+	int done = 0;
+
+	scanf(" %c", &yesOrNo);
+	if (yesOrNo != 'y', 'Y', 'n', 'N') {
+		printf("Only (Y)es or (N)o are acceptable: ");
+		flushKeyboard();
+	}
+	else if (yesOrNo == 'y', 'Y') {
+		done = 1;
+	}
+	else if (yesOrNo == 'n', 'N') {
+		done = 0;
+	}
+
+	return done;
+}
+
+int menu(void) {
+
+	printf("1- List all items\n2 - Search by SKU\n3 - Checkout an item\n");
+	printf("4 - Stock an item\n5 - Add new item or update item\n");
+	printf("6 - Delete item\n7 - Search by name\n0 - Exit program\n\n");
+
+	int choice;
+	choice = getIntLimited(0, 7);
+
+	return choice;
+	
+}
+
+void GroceryInventorySystem (void) {
+	int done = 0;
+	int option;
+
+	option = menu();
+
+	while (done = 0) {
+
+			switch (option) {
+
+			case 0:
+			printf("Exit the program? (Y)es/(N)o: ");
+			done = yes();
+			break;
+
+			case 1:
+				printf("List Items under construction!\n");
+				break;
+
+			case 2:
+				printf("Search Items under construction!\n");
+				break;
+
+			case 3:
+				printf("Checkout Items under construction!\n");
+				break;
+
+			case 4:
+				printf("Stock Items under construction!\n");
+				break;
+
+			case 5:
+				printf("Add/Update Items under construction!\n");
+				break;
+
+			case 6:
+				printf("Delete Items under construction!\n");
+				break;
+
+			case 7:
+				printf("Search by name under construction!\n");
+				break;
+
+			}
+		}
+	}
+
+
+
+
 
 int main(void) {
 	int iVal;
