@@ -5,13 +5,14 @@ Milestone Project 1
 */
 
 
-/*As for now, the file contain functions that are being called from 144_ms1_tester file*/
+/*As for now, the file contain functions that are being called from 144_ms1_tester file.
+Details of what each function does are commented below */
 
 #include <stdio.h>
 
 
 // ---------------------------------------
-// place function PROTOTYPES below here...
+// Function PROTOTYPES goes here...
 // ---------------------------------------
 
 
@@ -34,7 +35,7 @@ int menu(void);
 
 
 // ----------------------------------------
-// place function DEFINITIONS below here...
+//Function DEFINITIONS goes here...
 // ----------------------------------------
 
 void welcome(void) {
@@ -127,7 +128,7 @@ int getIntLimited(int lowerLimit, int upperLimit) {
 
 		limitCheck = getInt();
 
-		//limits check
+		//limits check for valid input
 
 		if (limitCheck > upperLimit || limitCheck < lowerLimit) {
 			printf("Invalid value, %d < value < %d: ", lowerLimit, upperLimit);
@@ -160,12 +161,18 @@ double getDouble(void) {
 		errorCheck = scanf("%lf%c", &value, &checkNewLine);
 
 		if (checkNewLine != '\n' || errorCheck == 0) {
+
 			printf("Invalid number, please try again: ");
 			flushKeyboard();
+
 		}
+
 		else {
+
 			done = 0;
+
 		}
+
 	}
 
 	return value;
@@ -183,10 +190,14 @@ double getDoubleLimited(double lowerLimit, double upperLimit) {
 		limitCheck = getDouble();
 
 		if (limitCheck > upperLimit || limitCheck < lowerLimit) {
+
 			printf("Invalid value, %lf< value < %lf: ", lowerLimit, upperLimit);
+
 		}
+
 		else {
 			done = 0;
+
 		}
 
 	}
