@@ -1,3 +1,12 @@
+/*
+Nikki Truong - 112 314 174
+IPC144 - Section H
+Milestone Project 1
+*/
+
+
+/*As for now, the file contain functions that are being called from 144_ms1_tester file*/
+
 #include <stdio.h>
 
 
@@ -27,34 +36,54 @@ int menu(void);
 // ----------------------------------------
 // place function DEFINITIONS below here...
 // ----------------------------------------
+
 void welcome(void) {
 
-	printf("---=== Grocery Inventory System ===---\n");
+	printf("---=== Grocery Inventory System ===---\n\n");
+
 }
+
 
 void printTitle(void) {
 
-	printf("Row |SKU| Name               | Price  |Taxed| Qty | Min | Total      |Atn\n");
+	printf("Row |SKU| Name               | Price  |Taxed| Qty | Min |   Total    |Atn\n");
 	printf("----+---+--------------------+--------+-----+-----+-----+------------|---\n");
+
 }
 
 void printFooter(double gTotal) {
+
 	printf("--------------------------------------------------------+----------------\n");
+
 	if (gTotal > 0) {
-		printf("                                           Grand Total: | %12.2lf\n", gTotal);
+
+		printf("                                           Grand Total: |%12.2lf\n", gTotal);
+
 	}
+
 }
 
-void pause(void) {
-	printf("Press <ENTER> to continue...");
-	flushKeyboard();
-}
+/*This function will reach in every single chacracter without storing and return control to its caller when
+user key in newline character (ENTER)*/
 
 void flushKeyboard(void) {
 
 	while (getchar() != '\n')
 		;
 }
+
+/*This function will pause the flow of the program and continue the program when user input new line character
+It calls flushkeyboard to clear buffer and wait for ENTER from user to continue*/
+
+void pause(void) {
+
+	printf("Press <ENTER> to continue...");
+	flushKeyboard();
+
+}
+
+/*Function getInt will scan in two input, an integer and one character, it reads in the integer and won't let user
+pass unless the correct data is entered and the one character is a newline*/
 
 int getInt(void) {
 
@@ -67,17 +96,27 @@ int getInt(void) {
 
 		errorCheck = scanf("%d%c", &value, &checkNewLine);
 
+		//Here the if-statement will check and enforce user to enter an valid input and end the input with ENTER
+		//errorCheck == 0 to make sure user input will be number and not an empty value
+
 		if (checkNewLine != '\n' || errorCheck == 0) {
-			printf("Invalid interger, please try again: ");
+			printf("Invalid integer, please try again: ");
 			flushKeyboard();
 		}
+
+		//when conditions are met, exit loop
+
 		else {
 			done = 0;
 		}
 	}
 
+	//function returns the valid integer to caller
+
 	return value;
 }
+
+//This function till check the value return from getInt function is within allowing limits
 
 int getIntLimited(int lowerLimit, int upperLimit) {
 
@@ -88,17 +127,26 @@ int getIntLimited(int lowerLimit, int upperLimit) {
 
 		limitCheck = getInt();
 
+		//limits check
+
 		if (limitCheck > upperLimit || limitCheck < lowerLimit) {
 			printf("Invalid value, %d < value < %d: ", lowerLimit, upperLimit);
 		}
+
+		//If input is within limits, exit loop
+
 		else {
 			done = 0;
 		}
 
 	}
 
+	//return value after limits check to caller
+
 	return limitCheck;
 }
+
+//Same as getInt but with double
 
 double getDouble(void) {
 
@@ -123,6 +171,8 @@ double getDouble(void) {
 	return value;
 }
 
+//Same as getIntLimited but with double
+
 double getDoubleLimited(double lowerLimit, double upperLimit) {
 
 	double limitCheck;
@@ -133,7 +183,7 @@ double getDoubleLimited(double lowerLimit, double upperLimit) {
 		limitCheck = getDouble();
 
 		if (limitCheck > upperLimit || limitCheck < lowerLimit) {
-			printf("Invalid value, %lf < value < %lf: ", lowerLimit, upperLimit);
+			printf("Invalid value, %lf< value < %lf: ", lowerLimit, upperLimit);
 		}
 		else {
 			done = 0;
@@ -147,30 +197,44 @@ double getDoubleLimited(double lowerLimit, double upperLimit) {
 
 // app interface
 
+
+//This function will fool-proof user's character input and it will return one value (0 or 1) to its caller
+
 int yes(void) {
 
 	char yesOrNo;
 
 	scanf(" %c", &yesOrNo);
 
+	//This loop will check user input and only stop when y or n was entered
+
 	while (yesOrNo != 'y' && yesOrNo != 'Y' && yesOrNo != 'n' && yesOrNo != 'N') {
+
 		printf("Only (Y)es or (N)o are acceptable: ");
 		scanf(" %c", &yesOrNo);
+
 	}
 
 	if (yesOrNo == 'y' || yesOrNo == 'Y') {
+
 		return 1;
 	}
+
 	else if (yesOrNo == 'n' || yesOrNo == 'N') {
+
 		return 0;
 	}
 
 }
+
+/*The menu function will print out available options, call function getIntLimited to take in a valid option
+and return user's choices to its caller*/
+
 int menu(void) {
 
-	printf("1- List all items\n2 - Search by SKU\n3 - Checkout an item\n");
-	printf("4 - Stock an item\n5 - Add new item or update item\n");
-	printf("6 - Delete item\n7 - Search by name\n0 - Exit program\n> ");
+	printf("1- List all items\n2- Search by SKU\n3- Checkout an item\n");
+	printf("4- Stock an item\n5- Add new item or update item\n");
+	printf("6- Delete item\n7- Search by name\n0- Exit program\n> ");
 
 	int choice;
 	choice = getIntLimited(0, 7);
@@ -179,10 +243,14 @@ int menu(void) {
 
 }
 
+/*This function contains the expansions of our program's menu. It calls function menu to obtain a verified option
+from user and goes to an option accordingly*/
+
 void GroceryInventorySystem(void) {
 	int flag = 0;
 	int option;
 
+	welcome();
 
 	while (flag == 0) {
 		option = menu();
@@ -196,76 +264,40 @@ void GroceryInventorySystem(void) {
 
 		case 1:
 			printf("List Items under construction!\n");
+			pause();
 			break;
 
 		case 2:
 			printf("Search Items under construction!\n");
+			pause();
 			break;
 
 		case 3:
-			printf("Checkout Items under construction!\n");
+			printf("Checkout Item under construction!\n");
+			pause();
 			break;
 
 		case 4:
-			printf("Stock Items under construction!\n");
+			printf("Stock Item under construction!\n");
+			pause();
 			break;
 
 		case 5:
-			printf("Add/Update Items under construction!\n");
+			printf("Add/Update Item under construction!\n");
+			pause();
 			break;
 
 		case 6:
-			printf("Delete Items under construction!\n");
+			printf("Delete Item under construction!\n");
+			pause();
 			break;
 
 		case 7:
 			printf("Search by name under construction!\n");
+			pause();
 			break;
-		}
 
-		pause();
+		}
 	}
 }
 
-
-
-int main(void) {
-	int iVal;
-	double dVal;
-	welcome();
-
-	printf("listing header and footer with grand total:\n");
-	printTitle();
-	
-	printFooter(1234.5678);
-	printf("listing header and footer without grand total:\n");
-	printTitle();
-	printFooter(-1);
-
-	pause();
-
-	printf("Enter an integer: ");
-	iVal = getInt();
-	printf("You entered: %d\n", iVal);
-
-	printf("Enter an integer between 10 and 20: ");
-	iVal = getIntLimited(10, 20);
-	printf("Your entered %d\n", iVal);
-
-	printf("Enter a floating point number: ");
-	dVal = getDouble();
-	printf("You entered: %0.2lf\n", dVal);
-
-	printf("Enter a floating point number between 10.00 and 20.00: ");
-	dVal = getDoubleLimited(10.0, 20.0);
-	printf("You entered: %0.2lf\n", dVal);
-	printf("End of tester program for IO tools!\n");
-
-	welcome();
-
-	GroceryInventorySystem();
-
-	printf("End of tester program for milestone one!\n");
-
-	return 0;
-}
