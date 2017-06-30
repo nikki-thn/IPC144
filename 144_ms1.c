@@ -38,12 +38,16 @@ int menu(void);
 //Function DEFINITIONS goes here...
 // ----------------------------------------
 
+
+//Function prints welcome message
+
 void welcome(void) {
 
 	printf("---=== Grocery Inventory System ===---\n\n");
 
 }
 
+//Function prints header
 
 void printTitle(void) {
 
@@ -51,6 +55,8 @@ void printTitle(void) {
 	printf("----+---+--------------------+--------+-----+-----+-----+------------|---\n");
 
 }
+
+//The function prints footer and only show Grand Total when it is a positive number
 
 void printFooter(double gTotal) {
 
