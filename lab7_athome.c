@@ -11,49 +11,39 @@ Section:
 
 //Function Prototypes go here
 
-void decompose (const long long phoneNum[], int *areaCode, int*prefix, int *lineNum);
+void decompose(const long long phoneNum[], int *areaCode, int*prefix, int *lineNum);
 int isValid(const long long phoneNum);
 
 //Function Definitions go here
-void decompose (const long long phoneNum, int *areaCode, int*prefix, int *lineNum) {
+void decompose(const long long phoneNum, int *areaCode, int*prefix, int *lineNum) {
 
 	long long temp;
 
-		temp = (phoneNum % 10000000); // Exact the 
-		*lineNum = temp % 10000; //9951
-		*prefix = (temp - *lineNum) / 10000; // 501
-		*areaCode = (phoneNum - temp) / 10000000; //306
+	temp = (phoneNum % 10000000); // Exact the 
+	*lineNum = temp % 10000; //9951
+	*prefix = (temp - *lineNum) / 10000; // 501
+	*areaCode = (phoneNum - temp) / 10000000; //306
 
 }
 
 int isValid(const long long phoneTemp) {
 
-
-	int validCheck;
 	int areaCodeCheck;
 	int prefixCheck;
 	int lineNumCheck;
-	int done = 1;
 
-	decompose(phoneTemp, &areaCodeCheck, &prefixCheck, &lineNumCheck);
+		decompose(phoneTemp, &areaCodeCheck, &prefixCheck, &lineNumCheck);
 
-   
-	while (done = 1) {
+		if ((areaCodeCheck == 416 || areaCodeCheck == 647 || areaCodeCheck == 905) && (prefixCheck > 100 && prefixCheck < 999)) {
+			return 1;
+		}
 
+		else {
 
-	}
+			printf("ERROR!!! Phone Number is not Valid\n\n");	
+			return 0;
 
-	if ((areaCodeCheck != 416 || areaCodeCheck != 647 || areaCodeCheck != 905) && (prefixCheck > 100 && prefixCheck < 999)) {
-		done = 0;
-		return 1;
-	}
-
-	else {
-
-		printf("ERROR!!! Phone Number is not Valid");
-
-		return 0;
-	}
+		}
 
 }
 
@@ -90,11 +80,11 @@ int main(void) {
 			break;
 
 		case 1: // Display the Phone List
-				
+
 			printf("Phone Numbers\n");
 			printf("==============\n\n");
 			// Display each number in decomposed form
-			
+
 			for (i = 0; i < count; i++) {
 
 				decompose(phoneNum[i], &areaCode, &prefix, &lineNum);
@@ -104,6 +94,8 @@ int main(void) {
 				printf("%d\n", lineNum);
 
 			}
+
+			printf("\n");
 
 			break;
 
@@ -115,11 +107,16 @@ int main(void) {
 				printf("============\n");
 				scanf("%lld", &phoneTemp);
 				valid = isValid(phoneTemp);
+
+
+
 				if (valid == 1) {
-					phoneTemp = phoneNum[count];
+					phoneNum[count] = phoneTemp;
 					count++;
 					printf("\n");
 				}
+
+
 			}
 			else if (count >= SIZE) {
 				printf("ERROR!!! Phone Number List is Full\n\n");
@@ -128,7 +125,7 @@ int main(void) {
 			break;
 
 		default:
-			printf("Invalid menu option\n");
+			printf("ERROR!!!: Incorrect Option: Try again\n\n");
 			break;
 
 		}
