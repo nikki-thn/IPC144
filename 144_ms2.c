@@ -366,7 +366,7 @@ int isLowQuantity(struct Item item) {
 
 }
 
-/*struct Item itemEntry(int sku) {
+struct Item itemEntry(int sku) {
 	int count = 0;
 
 	sku = getIntLimited(0,999);
@@ -381,7 +381,7 @@ int isLowQuantity(struct Item item) {
 
 	count++;
 
-}*/
+}
 
 void displayItem(struct Item item, int linear) {
 
