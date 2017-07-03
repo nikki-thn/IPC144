@@ -1,15 +1,12 @@
 /*
-Nikki Truong - 112 314 174
+Name: Nikki Truong
+ID: 112 314 174
 IPC144 - Section H
-Milestone Project 1
+Milestone Project - Part 1
 */
 
 
-/*As for now, the file contain functions that are being called from 144_ms1_tester file.
-Details of what each function does are commented below */
-
 #include <stdio.h>
-
 
 // ---------------------------------------
 // Function PROTOTYPES goes here...
@@ -70,8 +67,10 @@ void printFooter(double gTotal) {
 
 }
 
-/*This function will reach in every single chacracter without storing and return control to its caller when
-user key in newline character (ENTER)*/
+/*
+This function will read in every single chacracter without storing and return control to its caller when
+user key in newline \n character 
+*/
 
 void flushKeyboard(void) {
 
@@ -79,8 +78,10 @@ void flushKeyboard(void) {
 		;
 }
 
-/*This function will pause the flow of the program and continue the program when user input new line character
-It calls flushkeyboard to clear buffer and wait for ENTER from user to continue*/
+/*
+This function will pause the flow of the program and continue the program when user input new line character
+It calls flushkeyboard to clear buffer and wait for ENTER from user to continue
+*/
 
 void pause(void) {
 
@@ -89,8 +90,10 @@ void pause(void) {
 
 }
 
-/*Function getInt will scan in two input, an integer and one character, it reads in the integer and won't let user
-pass unless the correct data is entered and the one character is a newline*/
+/*
+Function getInt will scan in two input, an integer and one character, it reads in the integer and won't let user
+pass unless the correct data is entered and the one character is a newline
+*/
 
 int getInt(void) {
 
@@ -123,7 +126,7 @@ int getInt(void) {
 	return value;
 }
 
-//This function till check the value return from getInt function is within allowing limits
+//This function will check the value that was returned from getInt function is within allowing limits
 
 int getIntLimited(int lowerLimit, int upperLimit) {
 
@@ -220,6 +223,7 @@ double getDoubleLimited(double lowerLimit, double upperLimit) {
 int yes(void) {
 
 	char yesOrNo;
+	int value = 0;
 
 	scanf(" %c", &yesOrNo);
 
@@ -234,14 +238,15 @@ int yes(void) {
 
 	if (yesOrNo == 'y' || yesOrNo == 'Y') {
 
-		return 1;
+		value = 1;
 	}
 
 	else if (yesOrNo == 'n' || yesOrNo == 'N') {
 
-		return 0;
+		value = 0;
 	}
 
+	return value;
 }
 
 /*The menu function will print out available options, call function getIntLimited to take in a valid option
@@ -260,8 +265,10 @@ int menu(void) {
 
 }
 
-/*This function contains the expansions of our program's menu. It calls function menu to obtain a verified option
-from user and goes to an option accordingly*/
+/*
+This function contains the expansions of our program's menu. It calls function menu to obtain a verified option
+from user and goes to an option accordingly
+*/
 
 void GroceryInventorySystem(void) {
 	int flag = 0;
