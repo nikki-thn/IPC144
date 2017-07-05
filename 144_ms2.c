@@ -497,7 +497,7 @@ void listItems(const struct Item item[], int noOfItems) {
 
 	int n = 0;
 
-	printTittle();
+	printTitle();
 
 	for (n = 0; n < noOfItems; n++) {
 
@@ -505,17 +505,16 @@ void listItems(const struct Item item[], int noOfItems) {
 		grandTotal += totalAfterTax(item[n]);
 		taxDisplay = item[n].isTaxed;
 
-		printf("|%3d|%-20s|%8.2lf", item[n].sku, item[n].name, item[n].price);
+		printf("|%3d|%3d|%20s|%8.2lf|", n+1, item[n].sku, item[n].name, item[n].price);
 
 		if (taxDisplay == 1) {
-			printf("   Is Taxed: Yes\n");
+			printf("  Yes");
 		}
-
 		else if (taxDisplay == 0) {
-			printf("   Is Taxed: No\n");
+			printf("   No");
 		}
 
-		printf("| % 3d | % 3d | %12.2lf | \n", item[n].quantity, item[n].minQuantity, total);
+		printf("| %3d | %3d | %10.2lf | \n", item[n].quantity, item[n].minQuantity, total);
 	}
 
 	printFooter(grandTotal);
@@ -533,7 +532,7 @@ int locateItem(const struct Item item[], int NoOfRecs, int sku, int*index) {
 			*index = i;
 			value = 1;
 		}
-		else if (item[i].sku != sku){
+		else if (item[i].sku != sku) {
 			value = 0;
 		}
 	}
@@ -541,7 +540,7 @@ int locateItem(const struct Item item[], int NoOfRecs, int sku, int*index) {
 }
 
 
-int main(){
+int main() {
 
 	struct Item I[21] = {
 		{ 4.4, 275, 0, 10, 2, "Royal Apples" },
