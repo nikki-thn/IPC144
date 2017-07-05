@@ -1,10 +1,3 @@
-/*
-Name: Nikki Truong
-ID: 112 314 174
-IPC144 - Section H
-Milestone Project - Part 2
-*/
-
 #include<stdio.h>
 
 #define LINEAR 1
@@ -499,14 +492,33 @@ void displayItem(struct Item item, int linear) {
 void listItems(const struct Item item[], int noOfItems) {
 
 	double grandTotal = 0;
+	int taxDisplay = 0;
+	double total;
 
 	int n = 0;
-	//for (n = 0; n < noOfItems; n++) {
-	//printf("----+---+--------------------+--------+-----+-----+-----+------------|---\n");
-	//printf("|%3d|%3d|%20s|%8.2lf|  %3d| %3d |%3d  |%12.2lf|\n", 1, item[n].sku, item[n].name, item[n].price, item[n].isTaxed, item[n].quantity, item[n].minQuantity);
 
-	//}
+	printTittle();
 
+	for (n = 0; n < noOfItems; n++) {
+
+		total = totalAfterTax(item[n]);
+		grandTotal += totalAfterTax(item[n]);
+		taxDisplay = item[n].isTaxed;
+
+		printf("|%3d|%-20s|%8.2lf", item[n].sku, item[n].name, item[n].price);
+
+		if (taxDisplay == 1) {
+			printf("   Is Taxed: Yes\n");
+		}
+
+		else if (taxDisplay == 0) {
+			printf("   Is Taxed: No\n");
+		}
+
+		printf("| % 3d | % 3d | %12.2lf | \n", item[n].quantity, item[n].minQuantity, total);
+	}
+
+	printFooter(grandTotal);
 }
 
 int locateItem(const struct Item item[], int NoOfRecs, int sku, int*index) {
@@ -525,7 +537,7 @@ int locateItem(const struct Item item[], int NoOfRecs, int sku, int*index) {
 			value = 0;
 		}
 	}
-			return value;
+	return value;
 }
 
 
