@@ -391,7 +391,7 @@ struct Item itemEntry(int sku) {
 		item.sku = sku;
 
 		printf("       Name: ");
-		scanf("%s", &item.name);
+		scanf("%20[^\n]", &item.name);
 		flushKeyboard();
 
 		printf("      Price: ");
