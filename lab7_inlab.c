@@ -1,24 +1,32 @@
 /*
-Name:
-Student number:
-Workshop:
-Section:
+Name: Nikki Truong
+Student number: 112 314 174
+IPC 144 - Workshop 7
+Section: H
 */
+
+//This program will store user contacts number and exact it into format (area) - prefix - number 
 
 #include <stdio.h>
 
-#define SIZE 3
 
-void decompose(const long long phoneNum[], int *areaCode, int*prefix, int *lineNum);
+#define SIZE 3 //Maximum number storage
+
+//Function prototype
+void decompose (const long long phoneNum[], int *areaCode, int*prefix, int *lineNum);
+
+
+//Function declaration
+//This funtion will extract user input phone number into area code, prefix and 4 last digit number
 
 void decompose(const long long phoneNum, int *areaCode, int*prefix, int *lineNum) {
 
 	long long temp;
 
-		temp = (phoneNum % 10000000); // Exact the 
-		*lineNum = temp % 10000; //9951
-		*prefix = (temp - *lineNum) / 10000; // 501
-		*areaCode = (phoneNum - temp) / 10000000; //306
+	temp = (phoneNum % 10000000); //This line of code extract last 7 digits
+	*lineNum = temp % 10000; //This line gets the last 4 digits
+	*prefix = (temp - *lineNum) / 10000; //This codes gets the prefix digits
+	*areaCode = (phoneNum - temp) / 10000000; //This exacts the area code
 
 }
 
@@ -51,11 +59,11 @@ int main(void) {
 			break;
 
 		case 1: // Display the Phone List
-				
+
 			printf("Phone Numbers\n");
 			printf("==============\n\n");
 			// Display each number in decomposed form
-			
+
 			for (i = 0; i < count; i++) {
 
 				decompose(phoneNum[i], &areaCode, &prefix, &lineNum);
@@ -70,6 +78,8 @@ int main(void) {
 
 		case 2:	// Add a Phone Number
 
+			//This will check the counter to make sure there are space in array for input 
+			//Everytime user input, increase the counter by one
 			if (count < SIZE) {
 
 				printf("Add a Number\n");
@@ -78,6 +88,8 @@ int main(void) {
 				printf("\n");
 				count++;
 			}
+
+			//If array is full, return an error message
 			else if (count >= SIZE) {
 				printf("ERROR!!! Phone Number List is Full\n\n");
 			}
@@ -85,7 +97,10 @@ int main(void) {
 			break;
 
 		default:
+
+			//When user input non of the valid option
 			printf("Invalid menu option\n");
+
 			break;
 
 		}
