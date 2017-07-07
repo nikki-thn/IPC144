@@ -13,15 +13,15 @@ Section: H
 #define SIZE 3 //Maximum number storage
 
 //Function prototype
-void decompose (const long long phoneNum[], int *areaCode, int*prefix, int *lineNum);
+void decompose(long long phoneNum, int *areaCode, int*prefix, int *lineNum);
 
 
 //Function declaration
 //This funtion will extract user input phone number into area code, prefix and 4 last digit number
 
-void decompose(const long long phoneNum, int *areaCode, int*prefix, int *lineNum) {
+void decompose(long long phoneNum, int *areaCode, int*prefix, int *lineNum) {
 
-	long long temp;
+	int temp;
 
 	temp = (phoneNum % 10000000); //This line of code extract last 7 digits
 	*lineNum = temp % 10000; //This line gets the last 4 digits
@@ -36,9 +36,9 @@ int main(void) {
 	int option;
 	int count = 0;
 	long long phoneNum[SIZE] = { 0LL };
-	long long areaCode;
-	long long prefix;
-	long long lineNum;
+	int areaCode;
+	int prefix;
+	int lineNum;
 	int i = 0;
 
 	printf("---=== Phone Numbers ===---\n\n");
@@ -61,7 +61,8 @@ int main(void) {
 		case 1: // Display the Phone List
 
 			printf("Phone Numbers\n");
-			printf("==============\n\n");
+			printf("==============\n");
+
 			// Display each number in decomposed form
 
 			for (i = 0; i < count; i++) {
@@ -74,12 +75,14 @@ int main(void) {
 
 			}
 
+			printf("\n");
+
 			break;
 
 		case 2:	// Add a Phone Number
 
-			//This will check the counter to make sure there are space in array for input 
-			//Everytime user input, increase the counter by one
+				//This will check the counter to make sure there are space in array for input 
+				//Everytime user input, increase the counter by one
 			if (count < SIZE) {
 
 				printf("Add a Number\n");
@@ -91,6 +94,8 @@ int main(void) {
 
 			//If array is full, return an error message
 			else if (count >= SIZE) {
+				printf("Add a Number\n");
+				printf("============\n");
 				printf("ERROR!!! Phone Number List is Full\n\n");
 			}
 
