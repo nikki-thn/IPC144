@@ -1,7 +1,7 @@
 /*
 Name: Nikki Truong
 Student number: 112 314 174
-IPC 144 - Workshop 7 - At home
+IPC 144 - Workshop 8 - In lab
 Section: H
 */
 
@@ -14,7 +14,7 @@ Section: H
 
 //Function prototype
 void decompose(long long phoneNum, int *areaCode, int*prefix, int *lineNum);
-int isValid(const long long phoneNum);
+int isValid(long long phoneNum);
 
 //Function declaration
 //This funtion will extract user input phone number into area code, prefix and 4 last digit number
@@ -32,26 +32,27 @@ void decompose(long long phoneNum, int *areaCode, int*prefix, int *lineNum) {
 //This function will check each area code and prefix if they are valid
 /*Function recieves a phone number from caller, call decompose funtion to break it up and check
 the required components*/
-int isValid(const long long phoneTemp) {
+int isValid(long long phoneTemp) {
 
 	int areaCodeCheck;
 	int prefixCheck;
 	int lineNumCheck;
 
+	int value = 0;
+
 	decompose(phoneTemp, &areaCodeCheck, &prefixCheck, &lineNumCheck);
 
 	//Check conditions
 	if ((areaCodeCheck == 416 || areaCodeCheck == 647 || areaCodeCheck == 905) && (prefixCheck > 100 && prefixCheck < 999)) {
-		return 1;
+		value = 1;
 	}
 
 	else {
 		//If number is not valid, print error message
 		printf("ERROR!!! Phone Number is not Valid\n");
-		
-		return 0;
 	}
 
+	return value;
 }
 
 
@@ -113,19 +114,22 @@ int main(void) {
 
 				printf("Add a Number\n");
 				printf("============\n");
-				scanf("%lld", &phoneNum[count]);
+				scanf("%lld", &phoneTemp);
+				
 				valid = isValid(phoneTemp); //Here function isValid is called to check the entered number
 
-											//When the phone number is valid, store it to the array
+				//When the phone number is valid, store it to the array
 				if (valid == 1) {
+					
 					phoneNum[count] = phoneTemp;
 					count++;
-					
+
 				}
+
 				printf("\n");
 
 			}
-
+			
 			//If array is full, return an error message
 			else if (count >= SIZE) {
 				printf("Add a Number\n");
@@ -138,7 +142,7 @@ int main(void) {
 		default:
 
 			//When user input non of the valid option
-			printf("Invalid menu option\n");
+			printf("ERROR!!!: Incorrect option: Try Again\n");
 
 			break;
 
