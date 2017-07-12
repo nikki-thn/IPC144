@@ -26,8 +26,8 @@ struct Book {
 //Function prototypes go here
 void menu();
 void displayInventory(struct Book book[], int size);
-void searchInventory(const struct Book book[], const int size);
 void addBook(struct Book *book, int *size);
+int searchInventory(const struct Book book[], const int isbn, const int size);
 void checkPrice(const struct Book book[], const int size);
 
 //Menu function print out the menu
@@ -62,14 +62,10 @@ void displayInventory(struct Book book[], int size) {
 	printf("===================================================\n\n");
 }
 
-
-//void searchInventory(const struct Book book[], const int size) { } 
-//void checkPrice(const struct Book book[], const int size) { }
-//Not available in-lab portion
-
-/*addBook function will allow user to input data of the struct by pass-by-address, it will
-make sure current size is less or equal than Maximum space available, then
+/*addBook function will allow user to input data of the struct by pass-by-address, it 
+makes sure current size is less or equal than Maximum space available, then
 after successfully scanned in inputs, it will increase the size accordingly*/
+
 void addBook(struct Book *book, int *size) {
 
 	int count = *size;
@@ -103,6 +99,13 @@ void addBook(struct Book *book, int *size) {
 		printf("%d \n", count);
 	}
 
+}
+
+int searchInventory(const struct Book book[], const int isbn, const int size){
+	int value = 0;
+
+
+	return value;
 }
 
 
