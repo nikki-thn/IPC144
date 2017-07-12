@@ -434,87 +434,53 @@ void displayItem(struct Item item, int linear) {
 	//This is the linear form, we divide further into two cases: low quantity and normal quantity
 	if (linear == 1) {
 
-		//If quantity is not low, show linear
-		if (lowQuantity == 0) {
+		printf("|%3d|%-20s|%8.2lf|", item.sku, item.name, item.price);
 
-			printf("|%3d|%-20s|%8.2lf|", item.sku, item.name, item.price);
+		taxDisplay = item.isTaxed;
 
-			taxDisplay = item.isTaxed;
-
-			if (taxDisplay == 1) {
-				printf("  Yes|");
-			}
-			else if (taxDisplay == 0) {
-				printf("   No|");
-			}
-
-			printf(" %3d | %3d |%12.2lf|\n", item.quantity, item.minQuantity, totalPrice);
+		if (taxDisplay == 1) {
+			printf("  Yes|");
+		}
+		else if (taxDisplay == 0) {
+			printf("   No|");
 		}
 
-		//when quantity is low, print *** in attn colum to alert user
-		else if (lowQuantity == 1) {
+		printf(" %3d | %3d |%12.2lf|", item.quantity, item.minQuantity, totalPrice);
+	
 
-			printf("|%3d|%-20s|%8.2lf|", item.sku, item.name, item.price);
+	//when quantity is low, print *** in attn colum to alert user
+	if (lowQuantity == 1) {
 
-
-			taxDisplay = item.isTaxed;
-
-			if (taxDisplay == 1) {
-				printf("  Yes|");
-			}
-			else if (taxDisplay == 0) {
-				printf("   No|");
-			}
-
-			printf(" %3d | %3d |%12.2lf|***\n", item.quantity, item.minQuantity, totalPrice);
-		}
+		printf("***\n");
 	}
 
+	else if (lowQuantity == 0) {
+		printf("\n");
+	}
 
+}
 	//Display item in non-linear form, again we divide it in two cases
 	if (linear == 0) {
 
-		//When quantity is normal
-		if (lowQuantity == 0) {
-
 			printf("        SKU: %d\n       Name: %s\n      Price: %.2lf\n   Quantity: %d\n", item.sku, item.name, item.price, item.quantity);
 			printf("Minimum Qty: %d\n", item.minQuantity);
 
 			taxDisplay = item.isTaxed;
-
 
 			if (taxDisplay == 1) {
 
 				printf("   Is Taxed: Yes\n");
 
 			}
+
 			else if (taxDisplay == 0) {
 
 				printf("   Is Taxed: No\n");
 
 			}
-
-		}
 
 		//when quantity is low, show alert message
-		else if (lowQuantity == 1) {
-
-			printf("        SKU: %d\n       Name: %s\n      Price: %.2lf\n   Quantity: %d\n", item.sku, item.name, item.price, item.quantity);
-			printf("Minimum Qty: %d\n", item.minQuantity);
-
-			taxDisplay = item.isTaxed;
-
-			if (taxDisplay == 1) {
-
-				printf("   Is Taxed: Yes\n");
-
-			}
-
-			else if (taxDisplay == 0) {
-
-				printf("   Is Taxed: No\n");
-
-			}
+		if (lowQuantity == 1) {
 
 			printf("WARNING: Quantity low, please order ASAP!!!\n");
 
