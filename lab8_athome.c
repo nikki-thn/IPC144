@@ -67,8 +67,9 @@ void displayInventory(struct Book book[], int size) {
 //void checkPrice(const struct Book book[], const int size) { }
 //Not available in-lab portion
 
-/*addBook function will allow user to input data of the struct by pass-by-address
-after it successfully scanned in inputs, it will increase the size accordingly*/
+/*addBook function will allow user to input data of the struct by pass-by-address, it will
+make sure current size is less or equal than Maximum space available, then
+after successfully scanned in inputs, it will increase the size accordingly*/
 void addBook(struct Book *book, int *size) {
 
 	int count = *size;
@@ -108,9 +109,8 @@ void addBook(struct Book *book, int *size) {
 
 int main() {
 
-	struct Book book [MAX_BOOKS] = { { 0 } };
-	//{234567, 23.99, 2010, "Harry Potter", 3}
 	// An array of Book representing the inventory
+	struct Book book [MAX_BOOKS] = { { 0 } };
 
 	int size = 0; //Number of books in the inventory
 	int flag = 0;
@@ -127,35 +127,24 @@ int main() {
 
 		switch (option) {
 
-		case 0:
+		case 0: //exit program
 			printf("Goodbye!\n");
 			flag = 1;
 			break;
 
-		case 1:
-
+		case 1: //display inventory up to size
 			displayInventory(book, size);
-
 			break;
 
-		case 2:
+		case 2: //add data started from the first element of struct array
 			addBook(&book, &size);
-
-
 			break;
 
-		case 3:
-
-			break;
-
-		default:
+		default: //prompt error message
 			printf("Invalid input, try again:\n");
 			break;
 		}
 	}
-
-
-
 
 	return 0;
 }
