@@ -1,11 +1,23 @@
+/*
+Name: Nikki Truong
+ID: 112 314 174
+IPC144 - Section H
+Milestone Project - Part 2
+*/
+
+/*Part 2 of the milestone will scan in inventory item, caculate applicable tax amount and display them in two ways:
+Linear and Non-linear form*/
+
 #include<stdio.h>
 
 #define LINEAR 1
 #define FORM 0
 
+//declare constants
 const float TAX = 0.13;
 const int SIZE = 20;
 
+//declare struct Item type 
 struct Item {
 	double price;
 	int sku;
@@ -14,6 +26,7 @@ struct Item {
 	int minQuantity;
 	char name[21];
 };
+
 
 // ---------------------------------------
 // Function PROTOTYPES goes here...
@@ -235,8 +248,8 @@ int yes(void) {
 
 	scanf(" %c", &yesOrNo);
 	flushKeyboard();
-	//This loop will check user input and only stop when y or n was entered
 
+	//This loop will check user input and only stop when y or n was entered
 	while (yesOrNo != 'y' && yesOrNo != 'Y' && yesOrNo != 'n' && yesOrNo != 'N') {
 
 		printf("Only (Y)es or (N)o are acceptable: ");
@@ -337,14 +350,18 @@ void GroceryInventorySystem(void) {
 
 //PART 2 started
 
+//This function calculate the total of each item with or without tax and return the total
 double totalAfterTax(struct Item item) {
+
 	double totalAfterTax = 0;
 
 	if (item.isTaxed == 1) {
 
-		totalAfterTax = (item.price * item.quantity) * (1 + 0.13);
+		totalAfterTax = (item.price * item.quantity) * (1 + TAX);
 	}
+
 	else if (item.isTaxed == 0) {
+
 		totalAfterTax = (item.price * item.quantity);
 
 	}
@@ -353,186 +370,163 @@ double totalAfterTax(struct Item item) {
 }
 
 
-
+//This function check if item quantity is lower than minimum requirement and return 1 or 0
 int isLowQuantity(struct Item item) {
 
 	int isLow = 0;
 
 	if (item.quantity < item.minQuantity) {
+
 		isLow = 1;
+
 	}
+
 	else if (item.quantity >= item.minQuantity) {
+
 		isLow = 0;
+
 	}
 
 	return isLow;
 }
 
 
+//Function itemEntry will scan in data for struct item by utilize previous function
 struct Item itemEntry(int sku) {
 
 	struct Item item;
 
-	int i = 0;
+	printf("        SKU: %d\n", sku);
 
-	for (i = 0; i < 1; i++) {
+	item.sku = sku;
 
-		printf("        SKU: %d\n", sku);
+	printf("       Name: ");
+	scanf("%20[^\n]", item.name);
+	flushKeyboard();
 
-		item.sku = sku;
+	printf("      Price: ");
+	item.price = getDouble();
 
-		printf("       Name: ");
-		scanf("%20[^\n]", item.name);
-		flushKeyboard();
+	printf("   Quantity: ");
+	item.quantity = getInt();
 
-		printf("      Price: ");
-		item.price = getDouble();
+	printf("Minimum Qty: ");
+	item.minQuantity = getDouble();
 
-		printf("   Quantity: ");
-		item.quantity = getInt();
-
-		printf("Minimum Qty: ");
-		item.minQuantity = getDouble();
-
-		printf("   Is Taxed: ");
-		item.isTaxed = yes();
-
-	}
+	printf("   Is Taxed: ");
+	item.isTaxed = yes();
 
 	return item;
+
 }
 
 
+//Function displays items in two forms: linear and non-linear
 void displayItem(struct Item item, int linear) {
 
-	double totalPrice;
-	int lowQuantity;
+	double totalPrice = 0;
+	int lowQuantity = 0;
 	int taxDisplay = 0;
 
 	totalPrice = totalAfterTax(item);
 	lowQuantity = isLowQuantity(item);
 
+	//This is the linear form, we divide further into two cases: low quantity and normal quantity
 	if (linear == 1) {
 
-		if (lowQuantity == 0) {
+		printf("|%3d|%-20s|%8.2lf|", item.sku, item.name, item.price);
 
-			printf("|%3d|%-20s|%8.2lf|", item.sku, item.name, item.price);
+		taxDisplay = item.isTaxed;
 
-			taxDisplay = item.isTaxed;
-
-			if (taxDisplay == 1) {
-				printf("  Yes|");
-			}
-			else if (taxDisplay == 0) {
-				printf("   No|");
-			}
-
-			printf(" %3d | %3d |%12.2lf|\n", item.quantity, item.minQuantity, totalPrice);
+		if (taxDisplay == 1) {
+			printf("  Yes|");
+		}
+		else if (taxDisplay == 0) {
+			printf("   No|");
 		}
 
-		else if (lowQuantity == 1) {
+		printf(" %3d | %3d |%12.2lf|", item.quantity, item.minQuantity, totalPrice);
+	
 
-			printf("|%3d|%-20s|%8.2lf|", item.sku, item.name, item.price);
+	//when quantity is low, print *** in attn colum to alert user
+	if (lowQuantity == 1) {
 
-
-			taxDisplay = item.isTaxed;
-
-			if (taxDisplay == 1) {
-				printf("  Yes|");
-			}
-			else if (taxDisplay == 0) {
-				printf("   No|");
-			}
-
-
-			printf(" %3d | %3d |%12.2lf|***\n", item.quantity, item.minQuantity, totalPrice);
-		}
+		printf("***\n");
 	}
 
-
-
-	if (linear == 0) {
-
-		if (lowQuantity == 0) {
-
-			printf("        SKU: %d\n       Name: %s\n      Price: %.2lf\n   Quantity: %d\n", item.sku, item.name, item.price, item.quantity);
-			printf("Minimum Qty: %d\n", item.minQuantity);
-
-			taxDisplay = item.isTaxed;
-
-			if (taxDisplay == 1) {
-				printf("   Is Taxed: Yes\n");
-			}
-			else if (taxDisplay == 0) {
-				printf("   Is Taxed: No\n");
-			}
-		}
-		else if (lowQuantity == 1) {
-
-			printf("        SKU: %d\n       Name: %s\n      Price: %.2lf\n   Quantity: %d\n", item.sku, item.name, item.price, item.quantity);
-			printf("Minimum Qty: %d\n", item.minQuantity);
-
-			taxDisplay = item.isTaxed;
-
-			if (taxDisplay == 1) {
-				printf("   Is Taxed: Yes\n");
-			}
-			else if (taxDisplay == 0) {
-				printf("   Is Taxed: No\n");
-			}
-
-			printf("WARNING: Quantity low, please order ASAP!!!\n\n");
-
-		}
+	else if (lowQuantity == 0) {
+		printf("\n");
 	}
 
 }
+	//Display item in non-linear form, again we divide it in two cases
+	if (linear == 0) {
 
+			printf("        SKU: %d\n       Name: %s\n      Price: %.2lf\n   Quantity: %d\n", item.sku, item.name, item.price, item.quantity);
+			printf("Minimum Qty: %d\n", item.minQuantity);
+
+			taxDisplay = item.isTaxed;
+
+			if (taxDisplay == 1) {
+
+				printf("   Is Taxed: Yes\n");
+
+			}
+
+			else if (taxDisplay == 0) {
+
+				printf("   Is Taxed: No\n");
+
+			}
+
+		//when quantity is low, show alert message
+		if (lowQuantity == 1) {
+
+			printf("WARNING: Quantity low, please order ASAP!!!\n");
+
+		}
+	}
+}
+
+//listItems utilize displayItem function to show entries up to number noOfItems as specified by user
 void listItems(const struct Item item[], int noOfItems) {
 
 	double grandTotal = 0;
-	int taxDisplay = 0;
-	double total;
-
 	int n = 0;
 
 	printTitle();
-
+	
 	for (n = 0; n < noOfItems; n++) {
 
-		total = totalAfterTax(item[n]);
-		grandTotal += totalAfterTax(item[n]);
-		taxDisplay = item[n].isTaxed;
-
-		printf("|%3d|%3d|%20s|%8.2lf|", n + 1, item[n].sku, item[n].name, item[n].price);
-
-		if (taxDisplay == 1) {
-			printf("  Yes");
-		}
-		else if (taxDisplay == 0) {
-			printf("   No");
-		}
-
-		printf("| %3d | %3d | %10.2lf | \n", item[n].quantity, item[n].minQuantity, total);
+		printf("%-3d ", n + 1);
+		displayItem(item[n], 1);
 	}
 
 	printFooter(grandTotal);
 }
 
+//locateItem function will take parameters from caller, look for item's sku that is matched and store its index
+//and return 1 or 0 to indicate the success of the search
 int locateItem(const struct Item item[], int NoOfRecs, int sku, int*index) {
 
 	int i = 0;
 	int value = 0;
+
 	for (i = 0; i < NoOfRecs; i++) {
 
 		if (item[i].sku == sku) {
+
 			*index = i;
 			value = 1;
+
 		}
+
 		else if (item[i].sku != sku) {
+
 			value = 0;
 		}
+
 	}
+
 	return value;
 }
-
