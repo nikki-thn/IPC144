@@ -14,17 +14,17 @@ Section: H
 
 struct Book {
 
-	int _isbn;
-	float _price;
-	int _year;
 	char _title[MAX_TITLE_SIZE];
+	int _isbn;
+	int _year;
 	int _qty;
+	double _price;
 };
 
 void menu();
-void displayInventory(const struct Book book[], const int size);
+void displayInventory(struct Book book[], int size);
 void searchInventory(const struct Book book[], const int size);
-void addBook(struct Book book[], int *size);
+void addBook(struct Book *book, int *size);
 void checkPrice(const struct Book book[], const int size);
 
 void menu() {
@@ -42,7 +42,7 @@ void displayInventory(struct Book book[], int size) {
 	int i = 0;
 	if (size == 0) {
 		printf("The inventory is empty!\n");
-		
+
 	}
 
 	else if (size > 0) {
@@ -50,60 +50,64 @@ void displayInventory(struct Book book[], int size) {
 		printf("ISBN      Title               Year Price   Quantity\n");
 		printf("---------+-------------------+----+-------+--------\n");
 		for (i = 0; i < size; i++) {
-		printf("%-10.0d%-20s%-5d\$%-8.2f%-8d\n", book[i]._isbn, book[i]._title, book[i]._year, book[i]._price, book[i]._qty);
-	}
+			printf("%-10.0d%-20s%-5d\$%-8.2f%-8d\n", book[i]._isbn, book[i]._title, book[i]._year, book[i]._price, book[i]._qty);
 		}
+	}
 	printf("===================================================\n\n");
 }
 
 //void searchInventory(const struct Book book[], const int size) {
 
 
-void addBook(struct Book book[], int *size) {
+void addBook(struct Book *book, int *size) {
 
 	int count = *size;
 
-	//int tempYear = 0;
-	printf("%d count %d\n", *size, count);
 	if (*size == MAX_BOOKS) {
 		printf("The inventory is full.\n");
 	}
 
 	if (*size < MAX_BOOKS) {
+
 		printf("ISBN: ");
 		scanf("%d", &book[count]._isbn);
+
 		printf("Title: ");
-		scanf("%s", &book[count]._title);
+		scanf(" %20[^\n]s", &book[count]._title);
+
 		printf("Year: ");
 		scanf("%d", &book[count]._year);
-		printf("%d", book[*size]._year);
+
 		printf("Price: ");
 		scanf("%lf", &book[count]._price);
+
 		printf("Quantity: ");
 		scanf("%d", &book[count]._qty);
+
 		printf("The book is successfully added to the inventory\n");
+
 		count++;
 		*size = count;
-		printf("%d\n", *size);
+
+		printf("%d \n", count);
 	}
 
 }
 
-void checkPrice(const struct Book book[], const int size) {
+//void checkPrice(const struct Book book[], const int size) { }
 
 
-}
+
 
 int main() {
 
-	struct Book book[MAX_BOOKS];
-		//{234567, 23.99, 2010, "Harry Potter", 3}
-	 // An array of Book representing the inventory
+	struct Book book [MAX_BOOKS] = { { 0 } };
+	//{234567, 23.99, 2010, "Harry Potter", 3}
+	// An array of Book representing the inventory
 
 	int size = 0; //Number of books in the inventory
 	int flag = 0;
 	int option;
-	int i = 0;
 
 	printf("Welcome to the Book Store\n");
 	printf("=========================\n");
@@ -128,13 +132,13 @@ int main() {
 			break;
 
 		case 2:
-				addBook(book, &size);
-				printf("%-d", book[size]._year);
-			
+			addBook(&book, &size);
+
+
 			break;
 
 		case 3:
-		
+
 			break;
 
 		default:
