@@ -5,13 +5,15 @@ IPC 144 - Workshop 8 - In lab
 Section: H
 */
 
-//This program will 
+/*This program will perform a book inventory, in which it let user add data, display inventory, search for an item 
+and price check (at-home) */
 
 #include<stdio.h>
 
 #define MAX_BOOKS 2
-#define MAX_TITLE_SIZE 21
+#define MAX_TITLE_SIZE 20
 
+//declare struct Book type which hold books information
 struct Book {
 
 	char _title[MAX_TITLE_SIZE];
@@ -21,12 +23,14 @@ struct Book {
 	double _price;
 };
 
+//Function prototypes go here
 void menu();
 void displayInventory(struct Book book[], int size);
 void searchInventory(const struct Book book[], const int size);
 void addBook(struct Book *book, int *size);
 void checkPrice(const struct Book book[], const int size);
 
+//Menu function print out the menu
 void menu() {
 
 	printf("Please select from the following option: \n");
@@ -37,6 +41,8 @@ void menu() {
 
 }
 
+/*This fuction will bring out the book inventory by taking in the struct and the current size
+of number of elements in the struct */ 
 void displayInventory(struct Book book[], int size) {
 
 	int i = 0;
@@ -56,8 +62,9 @@ void displayInventory(struct Book book[], int size) {
 	printf("===================================================\n\n");
 }
 
-//void searchInventory(const struct Book book[], const int size) {
-
+/*addBook function will allow user to input data of the struct by pass-by-address, it
+make sure current size is less or equal than Maximum space available, then
+after successfully scanned in inputs, it will increase the size accordingly*/
 
 void addBook(struct Book *book, int *size) {
 
@@ -94,16 +101,12 @@ void addBook(struct Book *book, int *size) {
 
 }
 
-//void checkPrice(const struct Book book[], const int size) { }
-
-
 
 
 int main() {
 
-	struct Book book [MAX_BOOKS] = { { 0 } };
-	//{234567, 23.99, 2010, "Harry Potter", 3}
 	// An array of Book representing the inventory
+	struct Book book [MAX_BOOKS] = { { 0 } };
 
 	int size = 0; //Number of books in the inventory
 	int flag = 0;
@@ -120,35 +123,24 @@ int main() {
 
 		switch (option) {
 
-		case 0:
+		case 0: //exit program
 			printf("Goodbye!\n");
 			flag = 1;
 			break;
 
-		case 1:
-
+		case 1: //display inventory up to size
 			displayInventory(book, size);
-
 			break;
 
-		case 2:
+		case 2: //add data started from the first element of struct array
 			addBook(&book, &size);
-
-
 			break;
 
-		case 3:
-
-			break;
-
-		default:
+		default: //prompt error message
 			printf("Invalid input, try again:\n");
 			break;
 		}
 	}
-
-
-
 
 	return 0;
 }
