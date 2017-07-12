@@ -38,7 +38,7 @@ int main() {
 		scanf("%d", &book[0]._qty);
 		printf("Title: ");
 
-		scanf("%20[^\n]s", &book[0]._title);
+		scanf(" %20[^\n]s", &book[0]._title);
 		printf("The book is successfully added to the inventory\n");
 		count++;
 		printf("%d \n", count);
@@ -46,7 +46,7 @@ int main() {
 
 	int i = 0;
 	for (i < 0; i < count; i++) {
-		printf("isbn: %d, tittle: %s, year: %d , price : %.2lf, qty %d \n", book[i]._isbn, book[i]._title, book[i]._year, book[i]._price, book[i]._qty);
+		printf("isbn: %d, title: %s, year: %d , price : %.2lf, qty %d \n", book[i]._isbn, book[i]._title, book[i]._year, book[i]._price, book[i]._qty);
 	}
 
 	return 0;
