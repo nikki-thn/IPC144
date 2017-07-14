@@ -1,12 +1,12 @@
 /*
 Name: Nikki Truong
 Student number: 112 314 174
-IPC 144 - Workshop 8 - In lab
+IPC 144 - Workshop 8 - At home
 Section: H
 */
 
-/*This program will perform a book inventory, in which it let user add data, display inventory, search for an item 
-and price check (at-home) */
+/*This program will perform a book inventory, in which it let user add data, display inventory, search for an item
+and price check and search the item by isbn (at-home) */
 
 #include<stdio.h>
 
@@ -29,11 +29,12 @@ void displayInventory(struct Book book[], int size);
 void addBook(struct Book *book, int *size);
 int searchInventory(const struct Book book[], const int isbn, const int size);
 void checkPrice(const struct Book book[], const int size);
+int searchInventory(const struct Book book[], const int isbn, const int size);
 
 //Menu function print out the menu
 void menu() {
 
-	printf("Please select from the following option: \n");
+	printf("Please select from the following options:\n");
 	printf("1) Display the inventory.\n");
 	printf("2) Add a book to the inventory.\n");
 	printf("3) Check price.\n");
@@ -42,7 +43,7 @@ void menu() {
 }
 
 /*This fuction will bring out the book inventory by taking in the struct and the current size
-of number of elements in the struct */ 
+of number of elements in the struct */
 void displayInventory(struct Book book[], int size) {
 
 	int i = 0;
@@ -62,58 +63,121 @@ void displayInventory(struct Book book[], int size) {
 	printf("===================================================\n\n");
 }
 
-/*addBook function will allow user to input data of the struct by pass-by-address, it 
+
+int searchInventory(const struct Book book[], const int isbn, const int size) {
+
+	int i = 0;
+	int found = -1;
+
+	for (i = 0; i < size; i++) {
+
+		//When match is found, record index and pass to caller
+		if (book[i]._isbn == isbn) {
+
+			found = i;
+		}
+
+	}
+
+	return found;
+}
+
+
+//This function will look up prices by book's isbn number
+void checkPrice(const struct Book book[], const int size) {
+
+	int isbn = 0;
+	int isFound = -1;
+
+	printf("Please input the ISBN number of the book:\n");
+	scanf("%d", &isbn);
+
+	//call searchInventory function to get index if item is found
+	isFound = searchInventory(book, isbn, MAX_BOOKS);
+
+	if (isFound >= 0) {
+
+		printf("Book %d costs %.2lf", isbn, book[isFound]._price);
+	}
+
+	//if item is not found, prompt error message
+	else if (isFound < 0) {
+
+		printf("Book does not exit in the bookstore! Please try again.\n");
+
+	}
+}
+
+/*addBook function will allow user to input data of the struct by pass-by-address, it
 makes sure current size is less or equal than Maximum space available, then
 after successfully scanned in inputs, it will increase the size accordingly*/
 
 void addBook(struct Book *book, int *size) {
 
 	int count = *size;
+	int isFound = 0;
+	int isbn = 0;
+	int i = 0;
 
-	if (*size == MAX_BOOKS) {
-		printf("The inventory is full.\n");
+	printf("ISBN:");
+	scanf("%d", &isbn);
+
+	isFound = searchInventory(book, isbn, MAX_BOOKS);
+
+	if (isFound >= 0) {
+
+		int newQty = 0;
+
+		printf("Quantity:");
+		scanf("%d", &newQty);
+		book[isFound]._qty += newQty;
+		printf("The book exits in the repository, quantity is updates.\n");
+
+	} 
+
+	else if (isFound < 0) {
+
+
+		//printf("isbn %d, _isbn %d", isbn, book[count]._isbn);
+
+		if (*size == MAX_BOOKS) {
+
+			printf("The inventory is full.\n");
+
+		}
+
+		else if (*size < MAX_BOOKS) {
+
+		book[count]._isbn = isbn;
+
+			printf("Quantity:");
+			scanf("%d", &book[count]._qty);
+
+			printf("Title:");
+			scanf(" %20[^\n]", book[count]._title);
+
+			printf("Year:");
+			scanf("%d", &book[count]._year);
+
+			printf("Price:");
+			scanf("%lf", &book[count]._price);
+
+			printf("The book is successfully added to the inventory.\n\n");
+
+			count++;
+			*size = count;
+			
+		}
 	}
 
-	if (*size < MAX_BOOKS) {
-
-		printf("ISBN: ");
-		scanf("%d", &book[count]._isbn);
-
-		printf("Title: ");
-		scanf(" %20[^\n]s", &book[count]._title);
-
-		printf("Year: ");
-		scanf("%d", &book[count]._year);
-
-		printf("Price: ");
-		scanf("%lf", &book[count]._price);
-
-		printf("Quantity: ");
-		scanf("%d", &book[count]._qty);
-
-		printf("The book is successfully added to the inventory\n");
-
-		count++;
-		*size = count;
-
-		printf("%d \n", count);
-	}
-
+	
 }
-
-int searchInventory(const struct Book book[], const int isbn, const int size){
-	int value = 0;
-
-
-	return value;
-}
-
 
 
 int main() {
 
 	// An array of Book representing the inventory
-	struct Book book [MAX_BOOKS] = { { 0 } };
+	struct Book book[MAX_BOOKS];
 
 	int size = 0; //Number of books in the inventory
 	int flag = 0;
@@ -142,6 +206,9 @@ int main() {
 		case 2: //add data started from the first element of struct array
 			addBook(&book, &size);
 			break;
+
+		case 3: //find book's price by using isbn number to search
+
 
 		default: //prompt error message
 			printf("Invalid input, try again:\n");
