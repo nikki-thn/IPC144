@@ -53,6 +53,7 @@ void displayInventory(struct Book book[], int size) {
 	}
 
 	else if (size > 0) {
+		printf("\n\nInventory\n");
 		printf("===================================================\n");
 		printf("ISBN      Title               Year Price   Quantity\n");
 		printf("---------+-------------------+----+-------+--------\n");
