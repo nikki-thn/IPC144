@@ -64,7 +64,8 @@ void displayInventory(struct Book book[], int size) {
 	printf("===================================================\n\n");
 }
 
-
+//search function will look through struct book._isbn array and search for a match
+//When match is found, return the index value of the variable
 int searchInventory(const struct Book book[], const int isbn, const int size) {
 
 	int i = 0;
