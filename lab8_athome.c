@@ -208,7 +208,8 @@ int main() {
 			break;
 
 		case 3: //find book's price by using isbn number to search
-
+			checkPrice(&book, size);
+			break;
 
 		default: //prompt error message
 			printf("Invalid input, try again:\n");
