@@ -55,10 +55,10 @@ void displayInventory(struct Book book[], int size) {
 	else if (size > 0) {
 		printf("\n\nInventory\n");
 		printf("===================================================\n");
-		printf("ISBN      Title               Year Price   Quantity\n");
+		printf("ISBN      Title               Year Price  Quantity\n");
 		printf("---------+-------------------+----+-------+--------\n");
 		for (i = 0; i < size; i++) {
-			printf("%-10.0d%-20s%-5d\$%-8.2f%-8d\n", book[i]._isbn, book[i]._title, book[i]._year, book[i]._price, book[i]._qty);
+			printf("%-10.0d%-20s%-5d$%-8.2f%-8d\n", book[i]._isbn, book[i]._title, book[i]._year, book[i]._price, book[i]._qty);
 		}
 	}
 	printf("===================================================\n\n");
@@ -91,7 +91,7 @@ void checkPrice(const struct Book book[], const int size) {
 	int isbn = 0;
 	int isFound = -1;
 
-	printf("Please input the ISBN number of the book:\n");
+	printf("Please input the ISBN number of the book:\n\n");
 	scanf("%d", &isbn);
 
 	//call searchInventory function to get index if item is found
@@ -99,19 +99,19 @@ void checkPrice(const struct Book book[], const int size) {
 
 	if (isFound >= 0) {
 
-		printf("Book %d costs %.2lf", isbn, book[isFound]._price);
+		printf("Book %d costs $%.2lf\n\n", isbn, book[isFound]._price);
 	}
 
 	//if item is not found, prompt error message
 	else if (isFound < 0) {
 
-		printf("Book does not exit in the bookstore! Please try again.\n");
+		printf("Book does not exist in the bookstore! Please try again.\n\n");
 
 	}
 }
 
 /*addBook function will allow user to input data of the struct by pass-by-address, it
-makes sure current size is less or equal than Maximum space available, then
+makes sure current size is less or equal than maximum space available, then
 after successfully scanned in inputs, it will increase the size accordingly*/
 
 void addBook(struct Book *book, int *size) {
@@ -119,7 +119,6 @@ void addBook(struct Book *book, int *size) {
 	int count = *size;
 	int isFound = 0;
 	int isbn = 0;
-	int i = 0;
 
 	printf("ISBN:");
 	scanf("%d", &isbn);
@@ -133,9 +132,9 @@ void addBook(struct Book *book, int *size) {
 		printf("Quantity:");
 		scanf("%d", &newQty);
 		book[isFound]._qty += newQty;
-		printf("The book exits in the repository, quantity is updates.\n");
+		printf("The book exists in the repository, quantity is updated.\n\n");
 
-	} 
+	}
 
 	else if (isFound < 0) {
 
@@ -150,7 +149,7 @@ void addBook(struct Book *book, int *size) {
 
 		else if (*size < MAX_BOOKS) {
 
-		book[count]._isbn = isbn;
+			book[count]._isbn = isbn;
 
 			printf("Quantity:");
 			scanf("%d", &book[count]._qty);
@@ -168,11 +167,11 @@ void addBook(struct Book *book, int *size) {
 
 			count++;
 			*size = count;
-			
+
 		}
 	}
 
-	
+
 }
 
 
@@ -206,11 +205,11 @@ int main() {
 			break;
 
 		case 2: //add data started from the first element of struct array
-			addBook(&book, &size);
+			addBook(book, &size);
 			break;
 
 		case 3: //find book's price by using isbn number to search
-			checkPrice(&book, size);
+			checkPrice(book, size);
 			break;
 
 		default: //prompt error message
