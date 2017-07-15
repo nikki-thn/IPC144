@@ -682,12 +682,12 @@ void addOrUpdateItem(struct Item item[], int* NoOfRecs) {
 			}
 		}
 
-		else if (item[i].sku != sku) {
+		/*else if (item[i].sku != sku) {
 
 			printf("Item not found\n");
-			//addItem(item, NoOfRecs, sku);
+			addItem(item, NoOfRecs, sku);
 
-		}
+		} */
 
 	}
 
