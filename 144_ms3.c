@@ -619,43 +619,45 @@ void addItem(struct Item item[], int *NoOfRecs, int sku) {
 	int ans = 0;
 	int count = *NoOfRecs;
 
-		if (count == MAX_ITEM_NO) {
+	if (count == MAX_ITEM_NO) {
 
-			printf("Can not add new item; Storage Full!\n");
-			
+		printf("Can not add new item; Storage Full!\n");
+
+	}
+
+	else if (count < MAX_ITEM_NO) {
+
+		temp = itemEntry(sku);
+
+		printf("Add Item? (Y)es/(N)o: ");
+		ans = yes();
+
+		if (ans == 1) {
+
+			item[count] = temp;
+
+			printf("--== Added! ==--\n");
+
+			count++;
+
+			*NoOfRecs = count;
 		}
 
-		else if (count < MAX_ITEM_NO) {
+		else if (ans == 0) {
 
-			temp = itemEntry(sku);
-
-			printf("Add Item? (Y)es/(N)o: ");
-			ans = yes();
-
-			if (ans == 1) {
-
-				item[count] = temp;
-
-				printf("--== Added! ==--\n");
-
-				count++;
-
-				*NoOfRecs = count;
-			}
-
-			else if (ans == 0) {
-
-				printf("--== Aborted! ==--\n");
-
-			}
+			printf("--== Aborted! ==--\n");
 
 		}
+
+	}
 }
 
 void addOrUpdateItem(struct Item item[], int* NoOfRecs) {
 
 	int sku = 0;
 	int ans = 0;
+	int found = -1;
+
 	int i = 0;
 
 	printf("Please enter the SKU: ");
@@ -667,32 +669,38 @@ void addOrUpdateItem(struct Item item[], int* NoOfRecs) {
 		//When match is found, record index and pass to caller
 		if (item[i].sku == sku) {
 
-			displayItem(item[i], 0);
-
-			printf("Item already exists, Update? (Y)es/(N)o: ");
-			ans = yes();
-
-			if (ans == 1) {
-				updateItem(&item[i]);
-			}
-
-			if (ans == 0) {
-
-				printf("--== Aborted! ==--\n");
-			}
+			found = i;
 		}
 
-		/*else if (item[i].sku != sku) {
+	}
 
-			printf("Item not found\n");
-			addItem(item, NoOfRecs, sku);
+	if (found >= 0) {
 
-		} */
+		displayItem(item[found], 0);
+
+		printf("Item already exists, Update? (Y)es/(N)o: ");
+		ans = yes();
+
+
+		if (ans == 1) {
+			updateItem(&item[found]);
+		}
+
+		if (ans == 0) {
+
+			printf("--== Aborted! ==--\n");
+		}
 
 	}
 
+	else if (found == -1) {
 
+		addItem(item, NoOfRecs, sku);
 	}
+		
+		
+
+}
 
 
 void adjustQuantity(struct Item item[], int NoOfRecs, int stock) {
