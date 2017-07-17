@@ -658,6 +658,7 @@ void addOrUpdateItem(struct Item item[], int* NoOfRecs) {
 	int ans = 0;
 	int found = -1;
 
+
 	int i = 0;
 
 	printf("Please enter the SKU: ");
@@ -697,14 +698,97 @@ void addOrUpdateItem(struct Item item[], int* NoOfRecs) {
 
 		addItem(item, NoOfRecs, sku);
 	}
-		
-		
 
 }
 
 
 void adjustQuantity(struct Item item[], int NoOfRecs, int stock) {
 
+	int sku = 0;
+	int checkedOut = 0;
+	int found = -1;
+	int stocked = 0;
+	int isLow = 0;
+
+	int i = 0;
+
+	printf("Please enter the SKU: ");
+
+	sku = getIntLimited(SKU_MIN, SKU_MAX);
+
+	for (i = 0; i < NoOfRecs; i++) {
+
+		//When match is found, record index and pass to caller
+		if (item[i].sku == sku) {
+
+			found = i;
+		}
+
+	}
+
+
+	if (found >= 0) {
+
+		displayItem(item[found], 0);
+
+		if (stock == 0) {
+
+			printf("Please enter the quantity to checkout; Maximum of %d or 0 to abort: ", item[found].quantity);
+			checkedOut = getIntLimited(0, item[found].quantity);
+
+			if (checkedOut == 0) {
+
+				printf("--== Aborted! ==--\n");
+
+			}
+
+			else if (checkedOut > 0) {
+
+				printf("--== Checked out! ==--\n");
+
+				item[found].quantity -= checkedOut;
+
+				isLow = isLowQuantity(item[found]);
+
+				if (isLow == 1) {
+
+					printf("Quantity is low, please reorder ASAP!!!\n");
+				}
+
+	
+			}
+
+		}
+		
+		else if (stock == 1) {
+
+			printf("Please enter the quantity to stock; Maximum of %d or 0 to abort: ", MAX_QTY - item[found].quantity);
+			stocked = getIntLimited(0, MAX_QTY - item[found].quantity);
+
+			if (stocked == 0) {
+
+				printf("--== Aborted! ==--\n");
+
+			}
+
+			else if (stocked > 0) {
+
+				printf("--== Stocked! ==--\n");
+
+				item[found].quantity += stocked;
+
+			}
+
+		}
+
+	}
+
+
+	else if (found == -1) {
+
+		printf("SKU not found in storage!\n");
+
+	}
 
 }
 
