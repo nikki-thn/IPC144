@@ -525,8 +525,8 @@ void listItems(const struct Item item[], int noOfItems) {
 	printFooter(grandTotal);
 }
 
-//locateItem function will take parameters from caller, look for item's sku that is matched and store its index
-//and return 1 or 0 to indicate the success of the search
+/*locateItem function will take parameters from caller, look for item's sku that is matched and store its index
+and return 1 or 0 to indicate the success of the search*/
 int locateItem(const struct Item item[], int NoOfRecs, int sku, int*index) {
 
 	int i = 0;
@@ -551,8 +551,11 @@ int locateItem(const struct Item item[], int NoOfRecs, int sku, int*index) {
 	return value;
 }
 
+
+
 // PART 3 STARTED
 
+// This function will look for item's sku from user input and displaay match or error message
 void search(const struct Item item[], int NoOfRecs) {
 
 	int i = 0;
@@ -585,6 +588,8 @@ void search(const struct Item item[], int NoOfRecs) {
 
 }
 
+
+//This function is to update data by overwrite existing data
 void updateItem(struct Item* itemptr) {
 
 	struct Item temp;
@@ -594,6 +599,7 @@ void updateItem(struct Item* itemptr) {
 
 	temp = itemEntry(itemptr->sku);
 
+	//ask user to confirm overwrite
 	printf("Overwrite old data? (Y)es/(N)o: ");
 
 	ans = yes();
@@ -613,18 +619,21 @@ void updateItem(struct Item* itemptr) {
 
 }
 
+//addItem will check if storage is full before adding new data to the struct Item
 void addItem(struct Item item[], int *NoOfRecs, int sku) {
 
 	struct Item temp;
 	int ans = 0;
 	int count = *NoOfRecs;
 
+	//When storage is full, display message
 	if (count == MAX_ITEM_NO) {
 
 		printf("Can not add new item; Storage Full!\n");
 
 	}
 
+	//when storage is not full, proceed to get new data
 	else if (count < MAX_ITEM_NO) {
 
 		temp = itemEntry(sku);
@@ -652,6 +661,8 @@ void addItem(struct Item item[], int *NoOfRecs, int sku) {
 	}
 }
 
+/* This function is used to add new data (when sku is not already in struct
+or update existing data if sku is already found in struct */
 void addOrUpdateItem(struct Item item[], int* NoOfRecs) {
 
 	int sku = 0;
@@ -675,6 +686,7 @@ void addOrUpdateItem(struct Item item[], int* NoOfRecs) {
 
 	}
 
+	//If item is found, update item
 	if (found >= 0) {
 
 		displayItem(item[found], 0);
@@ -694,6 +706,8 @@ void addOrUpdateItem(struct Item item[], int* NoOfRecs) {
 
 	}
 
+	//If item is not found, create a new one by calling addItem
+
 	else if (found == -1) {
 
 		addItem(item, NoOfRecs, sku);
@@ -702,6 +716,8 @@ void addOrUpdateItem(struct Item item[], int* NoOfRecs) {
 }
 
 
+/* This function will adjust quantity of item by subtract quantity if checkout or f
+by adding to quantity if stock */
 void adjustQuantity(struct Item item[], int NoOfRecs, int stock) {
 
 	int sku = 0;
@@ -726,11 +742,12 @@ void adjustQuantity(struct Item item[], int NoOfRecs, int stock) {
 
 	}
 
-
+	//Proceed when sku is valid / already existed in the struct
 	if (found >= 0) {
 
 		displayItem(item[found], 0);
 
+		//Checkout by subtract from existing quantity
 		if (stock == 0) {
 
 			printf("Please enter the quantity to checkout; Maximum of %d or 0 to abort: ", item[found].quantity);
@@ -755,11 +772,12 @@ void adjustQuantity(struct Item item[], int NoOfRecs, int stock) {
 					printf("Quantity is low, please reorder ASAP!!!\n");
 				}
 
-	
+
 			}
 
 		}
-		
+
+		//Stock by adding to existing quantity
 		else if (stock == 1) {
 
 			printf("Please enter the quantity to stock; Maximum of %d or 0 to abort: ", MAX_QTY - item[found].quantity);
@@ -783,7 +801,7 @@ void adjustQuantity(struct Item item[], int NoOfRecs, int stock) {
 
 	}
 
-
+	//If item not found, display error message
 	else if (found == -1) {
 
 		printf("SKU not found in storage!\n");
