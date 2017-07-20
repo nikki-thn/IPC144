@@ -114,21 +114,26 @@ of number of elements in the struct */
 
 void displayInventory(const char filename[])
 {
-	struct Book book;
+	struct Book book = { { 0 } };
+
 	FILE *fp = NULL;
+
 
 	printf("\n\nInventory\n");
 	printf("===================================================\n");
 	printf("ISBN      Title               Year Price  Quantity\n");
 	printf("---------+-------------------+----+-------+--------\n");
 
-	fp = fopen(filename, "r");
-	if (fp != NULL){
-		while (fscanf(fp, "%d;%.2lf;%d;%d;%20s", &book._isbn, &book._price, &book._qty, &book._year, &book._title) != EOF){
-			printf("%-10.0d%-20s%-5d$%-8.2f%-8d\n", book._isbn, book._title, book._year, book._price, book._qty);
-		}
-		fclose(fp);
-		printf("===================================================\n\n");
+
+	fp = fopen("test.txt", "r");
+
+	while (fscanf(fp, "%d;%lf;%d;%d; %20[^\n]", &book._isbn, &book._price, &book._qty, &book._year, &book._title) != EOF) {
+		printf("%-10.0d%-20s%-5d$%-8.2f%-8d\n", book._isbn, book._title, book._year, book._price, book._qty);
+	}
+	
+	fclose(fp);
+	printf("===================================================\n\n");
+	
 	}
 
 	//search function will look through struct book._isbn array and search for a match
