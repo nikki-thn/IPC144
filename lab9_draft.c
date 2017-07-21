@@ -43,7 +43,7 @@ void displayInventory(const char filename[]) {
 
 	FILE *fp = NULL;
 
-	fp = fopen("test.txt", "r");
+	fp = fopen("144_w9_inventory.txt", "r");
 
 	rv = readRecord(fp, &book);
 
@@ -53,7 +53,7 @@ void displayInventory(const char filename[]) {
 	rewind(fp);
 
 	if (rv == 5) {
-		fp = fopen("test.txt", "r");
+		fp = fopen("144_w9_inventory.txt", "r");
 
 		while (fscanf(fp, "%d;%lf;%d;%d; %20[^\n]", &book._isbn, &book._price, &book._qty, &book._year, book._title) != EOF) {
 			printf("%-10.0d%-20s%-5d$%-8.2f%-8d\n", book._isbn, book._title, book._year, book._price, book._qty);
