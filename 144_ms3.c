@@ -5,7 +5,7 @@ IPC144 - Section H
 Milestone Project - Part 3
 */
 
-/*Part 3 */
+/* Part 3 */
 
 #include<stdio.h>
 
@@ -77,8 +77,9 @@ int yes(void);
 void GroceryInventorySystem(void);
 int menu(void);
 
+// PART 1
 
-
+// Print welcome message
 void welcome(void) {
 
 	printf("---=== Grocery Inventory System ===---\n\n");
@@ -525,8 +526,8 @@ void listItems(const struct Item item[], int noOfItems) {
 	printFooter(grandTotal);
 }
 
-/*locateItem function will take parameters from caller, look for item's sku that is matched and store its index
-and return 1 or 0 to indicate the success of the search*/
+/* locateItem function will take parameters from caller, look for item's sku that is matched and store its index
+and return 1 or 0 to indicate the success of the search */
 int locateItem(const struct Item item[], int NoOfRecs, int sku, int*index) {
 
 	int i = 0;
@@ -809,5 +810,3 @@ void adjustQuantity(struct Item item[], int NoOfRecs, int stock) {
 	}
 
 }
-
-
