@@ -1,7 +1,7 @@
 /*
 Name: Nikki Truong
 Student number: 112 314 174
-IPC 144 - Workshop 9 - In lab
+IPC 144 - Workshop 9 - At home
 Section: H
 */
 
@@ -35,92 +35,102 @@ void addBook(const char filename[], struct Book *b2Add);
 
 
 
-/*int searchInventory(FILE *fp, const int isbn2find) {
+int searchInventory(FILE *fp, const int isbn2find) {
 
-struct Book book = { { 0 } };
+	struct Book book = { { 0 } };
 
-int found = 0;
+	int found = -1;
 
-while (fscanf(fp, "%d;%lf;%d;%d; %20[^\n]", &book._isbn, &book._price, &book._year, &book._qty, book._title) != EOF) {
-if (book._isbn == isbn2find)
-{
-found = -1;
-printf("Item found\n");
+	while (fscanf(fp, "%d;%lf;%d;%d; %20[^\n]", &book._isbn, &book._price, &book._year, &book._qty, book._title) != EOF) {
+		if (book._isbn == isbn2find)
+		{
+			found = 1;
+			printf("Book %d costs $%.2f\n\n", isbn2find, book._price);
+		}
+
+	}
+
+	fclose(fp);
+
+	//Define an object of struct Book and other necessary variables
+
+	//If the file ponter is not NULL:
+	//as long as the record is not found,
+	//use the function readRecord to read the recods and look for isbn2find
+	return found;
 }
 
-}
 
-//Define an object of struct Book and other necessary variables
+void checkPrice(const char filename[], const int isbn2find) {
 
-//If the file ponter is not NULL:
-//as long as the record is not found,
-//use the function readRecord to read the recods and look for isbn2find
-return found;
-}
-*/
-
-void addBook(const char filename[], struct Book *b2Add)
-{
-	struct Book book= {{0} };
+	int found = 0;
 
 	FILE *fp = NULL;
 
-		fp = fopen(filename, "a+");
 
-		printf("ISBN: ");
-		scanf("%d", &book._isbn);
+	fp = fopen(filename, "r");
 
-		printf("Title:");
-		scanf(" %20[^\n]", book._title);
+	found = searchInventory(fp, isbn2find);
 
-		printf("Year:");
-		scanf("%d", &book._year);
+	if (found == -1) {
 
-		printf("Price:");
-		scanf("%lf", &book._price);
+		printf("Book does not exist in inventory\n");
+	}
 
-		printf("Quantity:");
-		scanf("%d", &book._qty);
 
+}
+
+
+
+void addBook(const char filename[], struct Book *b2Add)
+{
+	struct Book book = { {0} };
+
+	int found = 0;
+
+	int isbn = 0;
+
+	FILE *fp = NULL;
+
+	fp = fopen(filename, "a+");
+
+	printf("ISBN: ");
+	scanf("%d", &isbn);
+
+
+	printf("Title:");
+	scanf(" %20[^\n]", book._title);
+
+	printf("Year:");
+	scanf("%d", &book._year);
+
+	printf("Price:");
+	scanf("%lf", &book._price);
+
+	printf("Quantity:");
+	scanf("%d", &book._qty);
+
+
+	found = searchInventory(fp, isbn);
+
+	printf("found %d", found);
+	if (found == -1) {
+
+		book._isbn = isbn;
 		printf("The book is successfully added to the inventory.\n\n");
 
-		fprintf(fp, "%d;%lf;%d;%d; %s", book._isbn, book._price, book._year, book._qty, book._title);
-
-
+	fprintf(fp, "%d;%lf;%d;%d; %s\n", book._isbn, book._price, book._year, book._qty, book._title);
 	fclose(fp);
+
+
+	}
+
+	if (found == 1) {
+
+		printf("The book exists in the repository!\n\n");
+	}
 }
-
-
-
-/*void checkPrice(const char filename[], const int isbn2find) {
-
-struct Book book = { { 0 } };
-
-int rv = 0;
-int found = 0;
-
-FILE *fp = NULL;
-fp = fopen(filename, "r");
-
-rewind(fp);
-
-if (fp != NULL) {
-
-while (fscanf(fp, "%d;%lf;%d;%d; %20[^\n]", &book._isbn, &book._price, &book._year, &book._qty, book._title) != EOF) {
-if (book._isbn == isbn2find)
-{
-found = -1;
-}
-printf("Item found\n");
-
-}
-
-}
-fclose(fp);
-}*/
-
-
-
+//put bookstore_v2_at_home.c
 
 //Menu function print out the menu
 void menu() {
@@ -238,7 +248,7 @@ int main() {
 
 	int flag = 0;
 	int option;
-	//int isbn;
+	int isbn = 0;
 
 	printf("Welcome to the Book Store\n");
 	printf("=========================\n");
@@ -264,11 +274,12 @@ int main() {
 			addBook(filename, &mybook);
 			break;
 
-			//case 3: //Check price of an item
-			//	printf("Please enter ISBN: ");
-			//	scanf("%d", &isbn);
-			//	checkPrice(filename, isbn);
-			//	break;
+		case 3: //Check price of an item
+
+			printf("Please input the ISBN number of the book:\n\n");
+			scanf("%d", &isbn);
+			checkPrice(filename, isbn);
+			break;
 
 		case 4: //Calculate total capital
 			calculateCapital(filename);
