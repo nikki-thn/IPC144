@@ -1,0 +1,2 @@
+Infinite loop when fscan or fprint => record seperator or EOF was missing
+
