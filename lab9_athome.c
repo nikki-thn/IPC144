@@ -84,7 +84,7 @@ void checkPrice(const char filename[], const int isbn2find) {
 
 void addBook(const char filename[], struct Book *b2Add)
 {
-	struct Book book = { {0} };
+	struct Book book = { { 0 } };
 
 	int found = 0;
 
@@ -113,14 +113,19 @@ void addBook(const char filename[], struct Book *b2Add)
 
 	found = searchInventory(fp, isbn);
 
+	rewind(fp);
+
 	printf("found %d", found);
 	if (found == -1) {
+
+
+		fp = fopen(filename, "a+");
 
 		book._isbn = isbn;
 		printf("The book is successfully added to the inventory.\n\n");
 
-	fprintf(fp, "%d;%lf;%d;%d; %s\n", book._isbn, book._price, book._year, book._qty, book._title);
-	fclose(fp);
+		fprintf(fp, "%d;%lf;%d;%d; %s\n", book._isbn, book._price, book._year, book._qty, book._title);
+		fclose(fp);
 
 
 	}
@@ -234,7 +239,7 @@ float calculateCapital(const char filename[]) {
 		fclose(fp);
 	}
 
-	printf("The total capital is: $%.2lf.\n", total_capital);
+	printf("The total capital is: $%.2lf.\n\n", total_capital);
 
 	return total_capital;
 
