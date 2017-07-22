@@ -94,7 +94,7 @@ void addBook(const char filename[], struct Book *b2Add)
 
 	fp = fopen(filename, "a+");
 
-	printf("ISBN: ");
+	printf("ISBN:");
 	scanf("%d", &isbn);
 
 
