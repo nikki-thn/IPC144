@@ -34,131 +34,6 @@ void addBook(const char filename[], struct Book *b2Add);
 void checkPrice(const char filename[], const int isbn2find);
 
 
-
-int searchInventory(FILE *fp, const int isbn2find) {
-
-	struct Book book = { { 0 } };
-
-	int found = -1;
-
-	while (fscanf(fp, "%d;%lf;%d;%d; %20[^\n]", &book._isbn, &book._price, &book._year, &book._qty, book._title) != EOF) {
-		
-		if (book._isbn == isbn2find)
-
-		{
-			found = 1;
-
-
-		}
-
-	}
-
-	fclose(fp);
-
-	//Define an object of struct Book and other necessary variables
-
-	//If the file ponter is not NULL:
-	//as long as the record is not found,
-	//use the function readRecord to read the recods and look for isbn2find
-
-	return found;
-}
-
-
-void checkPrice(const char filename[], const int isbn2find) {
-
-	struct Book book = { { 0 } };
-
-	int found = 0;
-
-	FILE *fp = NULL;
-
-	fp = fopen(filename, "r");
-
-	found = searchInventory(fp, isbn2find);
-
-	rewind(fp);
-
-	if (found == -1) {
-
-		printf("Book does not exist in inventory\n");
-	}
-
-	if (found == 1) {
-
-
-		fp = fopen(filename, "r");
-
-		while (fscanf(fp, "%d;%lf;%d;%d; %20[^\n]", &book._isbn, &book._price, &book._year, &book._qty, book._title) != EOF) {
-
-			if (book._isbn == isbn2find){
-
-				printf("Book %d costs $%.2f\n\n", isbn2find, book._price);
-
-			}
-
-		}
-	}
-
-
-}
-
-
-
-void addBook(const char filename[], struct Book *b2Add)
-{
-	struct Book book = { { 0 } };
-
-	int found = 0;
-
-	int isbn = 0;
-
-	FILE *fp = NULL;
-
-	fp = fopen(filename, "a+");
-
-	printf("ISBN:");
-	scanf("%d", &isbn);
-
-
-	printf("Title:");
-	scanf(" %20[^\n]", book._title);
-
-	printf("Year:");
-	scanf("%d", &book._year);
-
-	printf("Price:");
-	scanf("%lf", &book._price);
-
-	printf("Quantity:");
-	scanf("%d", &book._qty);
-
-
-	found = searchInventory(fp, isbn);
-
-	rewind(fp);
-
-	//printf("found %d", found);
-
-	if (found == -1) {
-
-		fp = fopen(filename, "a+");
-
-		book._isbn = isbn;
-		printf("The book is successfully added to the inventory.\n\n");
-
-		fprintf(fp, "%d;%lf;%d;%d; %s\n", book._isbn, book._price, book._year, book._qty, book._title);
-		fclose(fp);
-
-	}
-
-	if (found == 1) {
-
-		printf("The book exists in the repository!\n\n");
-	}
-}
-//put bookstore_v2_at_home.c
-
 //Menu function print out the menu
 void menu() {
 
@@ -265,6 +140,126 @@ float calculateCapital(const char filename[]) {
 
 	return total_capital;
 
+}
+
+
+// This function will look through the file to search for a match and retun 1 if found
+
+int searchInventory(FILE *fp, const int isbn2find) {
+
+	struct Book book = { { 0 } };
+
+	int found = -1;
+
+	while (fscanf(fp, "%d;%lf;%d;%d; %20[^\n]", &book._isbn, &book._price, &book._year, &book._qty, book._title) != EOF) {
+
+		if (book._isbn == isbn2find)
+
+		{
+			found = 1;
+
+		}
+
+	}
+
+	fclose(fp);
+
+	return found;
+}
+
+
+/*CheckPrice function will call searchInventory, if match is found, open file 
+to look for price of a book*/
+void checkPrice(const char filename[], const int isbn2find) {
+
+	struct Book book = { { 0 } };
+
+	int found = 0;
+
+	FILE *fp = NULL;
+
+	fp = fopen(filename, "r");
+
+	//call search function to get value 
+	found = searchInventory(fp, isbn2find);
+
+	rewind(fp);
+
+	//If the book is not in record, display error message
+	if (found == -1) {
+
+		printf("Book does not exist in inventory\n");
+	}
+
+	//If book is found, print book price
+	if (found == 1) {
+
+		fp = fopen(filename, "r");
+
+		while (fscanf(fp, "%d;%lf;%d;%d; %20[^\n]", &book._isbn, &book._price, &book._year, &book._qty, book._title) != EOF) {
+
+			if (book._isbn == isbn2find) {
+
+				printf("Book %d costs $%.2f\n\n", isbn2find, book._price);
+
+			}
+
+		}
+	}
+
+}
+
+
+/* addBook function will call searchInventory, if the book does not exit, add new book
+or else display error message*/
+
+void addBook(const char filename[], struct Book *b2Add)
+{
+	struct Book book = { { 0 } };
+
+	int found = 0;
+	int isbn = 0;
+
+	FILE *fp = NULL;
+
+	fp = fopen(filename, "a+");
+
+	printf("ISBN:");
+	scanf("%d", &isbn);
+
+
+	printf("Title:");
+	scanf(" %20[^\n]", book._title);
+
+	printf("Year:");
+	scanf("%d", &book._year);
+
+	printf("Price:");
+	scanf("%lf", &book._price);
+
+	printf("Quantity:");
+	scanf("%d", &book._qty);
+
+	found = searchInventory(fp, isbn);
+
+	rewind(fp);
+
+	if (found == -1) {
+
+		fp = fopen(filename, "a+");
+
+		book._isbn = isbn;
+		printf("The book is successfully added to the inventory.\n\n");
+
+		fprintf(fp, "%d;%lf;%d;%d; %s\n", book._isbn, book._price, book._year, book._qty, book._title);
+		fclose(fp);
+
+	}
+
+	if (found == 1) {
+
+		printf("The book exists in the repository!\n\n");
+	}
 }
 
 
