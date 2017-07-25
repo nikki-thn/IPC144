@@ -886,38 +886,46 @@ int saveItems(const struct Item item[], char fileName[], int NoOfRecs) {
 
 int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 
-	int isTrue;
-	int readItem = 0;
-	int i = 0;
+	int count = *NoOfRecsPtr;
 
-	struct Item itemT;
+	//printf("count %d\n", count);
+
+//	printf("noRecs %d\n", *NoOfRecsPtr);
 
 	FILE *fp = fopen(fileName, "r");
-
-	isTrue = loadItem(item, fp);
 
 	//printf("%d,%d,%d,%.2lf,%c,%s\n", item.sku, item.quantity, item.minQuantity, item.price, item.isTaxed, item.name);
 
 	//printf("is true %d\n", isTrue);
 
-	if (isTrue == 1) {
+	if (fp != NULL) {
 
-	
+		int i = 0;
 
-		while (fscanf(fp, "%d,%d,%d,%.2lf,%c,%s\n", &itemT.sku, &itemT.quantity, &itemT.minQuantity, &itemT.price, &itemT.isTaxed, &itemT.name) != EOF) {
-			readItem++;
+		for (i = 0; i < *NoOfRecsPtr + 1; i++) {
+			loadItem(&item[i], fp);
+		//	printf("%d,%d,%d,%lf,%d, %s\n", item[count].sku, item[count].quantity, item[count].minQuantity, item[count].price, item[count].isTaxed, item[count].name);
+			count++;
+			printf("count %d\n", count);
+
+
 
 		}
 
-		*NoOfRecsPtr = readItem;
+		*NoOfRecsPtr = count;
+
 	}
-
-
-	else if (isTrue == 0);
 
 	fclose(fp);
 
-	return isTrue;
+//	printf("%d,%d,%d,%lf,%d, %20[\n]\n", item[count].sku, item[count].quantity, item[count].minQuantity, item[count].price, item[count].isTaxed, item[count].name);
+
+
+	//printf("count %d\n", count);
+
+	printf("noRecs %d\n", *NoOfRecsPtr);
+
+	return 1;
 
 }
 
@@ -938,7 +946,7 @@ void prnFile() {
 
 int main(void) {
 
-	int i, n;
+	int i, n = 0;
 
 	struct Item GI[3] = {
 		{ 4.4,275,0,10,2,"Royal Gala Apples" },
