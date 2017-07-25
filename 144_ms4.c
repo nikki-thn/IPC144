@@ -13,7 +13,6 @@ Milestone Project - Part 3
 #define FORM 0
 #define STOCK 1
 #define CHECKOUT 0
-#define MAX_ITEM_NO 21
 #define MAX_QTY 999
 #define SKU_MAX 999
 #define SKU_MIN 100
@@ -823,32 +822,29 @@ void adjustQuantity(struct Item item[], int NoOfRecs, int stock) {
 
 void saveItem(struct Item item, FILE* dataFile) {
 
+	//printf("Elements are followed %d,%d,%d,%.2lf,%c,%s\n", item.sku, item.quantity, item.minQuantity, item.price, item.isTaxed, item.name);
 
-	fprintf(dataFile, "%d,%d,%d,%.2lf,%c,%s\n", item.sku, item.quantity, item.minQuantity, item.price, item.isTaxed, item.name);
-	fclose(dataFile);
-
+	fprintf(dataFile, "%d,%d,%d,%.2lf,%d,%s\n", item.sku, item.quantity, item.minQuantity, item.price, item.isTaxed, item.name);
 }
 
 
 
-int loadItem(struct Item* item, FILE* dataFile) {
+int loadItem(struct Item* temp, FILE* dataFile) {
 
 	int isTrue = 0;
 
 	int rv = 0;
 
+	struct Item item = { 0 };
 
-	struct Item item;
-
-	rv = fscanf(dataFile, "%d,%d,%d,%.2lf,%c,%s\n", item.sku, item.quantity, item.minQuantity, item.price, item.isTaxed, item.name);
-
+	rv = fscanf(dataFile, "%d,%d,%d,%lf,%d, %20[^\n]", &item.sku, &item.quantity, &item.minQuantity, &item.price, &item.isTaxed, item.name);
+	
 	if (rv == 6) {
 
 		isTrue = 1;
 	}
 
-
-	fclose(fp);
+	*temp = item;
 
 	return isTrue;
 
@@ -862,11 +858,13 @@ int saveItems(const struct Item item[], char fileName[], int NoOfRecs) {
 	int isTrue = 1;
 	int i = 0;
 
+	int rv = 1;
+
 	FILE *fp = fopen(fileName, "w+");
 
 	if (fp != NULL) {
 
-		for (i = 0; i < NoOfRecs, i++) {
+		for (i = 0; i < NoOfRecs; i++) {
 
 			saveItem(item[i], fp);
 
@@ -892,17 +890,21 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 	int readItem = 0;
 	int i = 0;
 
-	FILE *fp = fopen(fileName, "r");
+	struct Item itemT;
 
-	rewind(fp);
+	FILE *fp = fopen(fileName, "r");
 
 	isTrue = loadItem(item, fp);
 
+	//printf("%d,%d,%d,%.2lf,%c,%s\n", item.sku, item.quantity, item.minQuantity, item.price, item.isTaxed, item.name);
+
+	//printf("is true %d\n", isTrue);
+
 	if (isTrue == 1) {
 
-		FILE *fp = fopen(fileName, "r");
+	
 
-		while (fscanf(fp, "%d;%lf;%d;%d; %20[^\n]", &book._isbn, &book._price, &book._year, &book._qty, book._title) != EOF) {
+		while (fscanf(fp, "%d,%d,%d,%.2lf,%c,%s\n", &itemT.sku, &itemT.quantity, &itemT.minQuantity, &itemT.price, &itemT.isTaxed, &itemT.name) != EOF) {
 			readItem++;
 
 		}
@@ -913,9 +915,119 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 
 	else if (isTrue == 0);
 
+	fclose(fp);
+
 	return isTrue;
 
-	fclose(fp); 
+}
 
 
+
+void prnFile() {
+	FILE* tp = fopen("test.txt", "r");
+	char ch;
+	if (tp) {
+		for (; fscanf(tp, "%c", &ch) == 1; putchar(ch));
+		fclose(tp);
+	}
+	else {
+		printf("test.txt not found\n");
+	}
+}
+
+
+int main(void) {
+
+	int i, n;
+
+	struct Item GI[3] = {
+		{ 4.4,275,0,10,2,"Royal Gala Apples" },
+		{ 5.99,386,0,20,4,"Honeydew Melon" },
+		{ 3.99,240,0,30,5,"Blueberries" },
+	};
+
+	struct Item I;
+	struct Item IN[3];
+
+	printf("***********Testing saveItem:\n");
+	printf("Your saveItem saved the following in test.txt: \n");
+
+	FILE* tp = fopen("test.txt", "w");
+
+	if (tp) {
+
+		for (i = 0; i < 3; i++) saveItem(GI[i], tp);
+		fclose(tp);
+		prnFile();
+	}
+
+	printf("*******************************\nThey have to match the following:\n");
+	printf("275,10,2,4.40,0,Royal Gala Apples\n");
+	printf("386,20,4,5.99,0,Honeydew Melon\n");
+	printf("240,30,5,3.99,0,Blueberries\n");
+	printf("***********END Testing saveItem!\n\n\n");
+
+	pause();
+
+
+//==================GOOD
+
+	printf("***********Testing loadItem:\n");
+	printf("Your loadItem loaded the following from test.txt: \n");
+	tp = fopen("test.txt", "r");
+
+	if (tp) {
+		for (i = 0; i < 3; i++) {
+			loadItem(&I, tp);
+			displayItem(I, LINEAR);
+		}
+
+		fclose(tp);
+		tp = fopen("test.txt", "w");
+		fclose(tp);
+	}
+
+	printf("*******************************\nThey have to match the following:\n");
+	printf("|275|Royal Gala Apples   |    4.40|   No|  10 |   2 |       44.00|\n");
+	printf("|386|Honeydew Melon      |    5.99|   No|  20 |   4 |      119.80|\n");
+	printf("|240|Blueberries         |    3.99|   No|  30 |   5 |      119.70|\n");
+	printf("***********END Testing loadItem!\n\n\n");
+
+	pause();
+
+	//==================GOOD
+
+	printf("***********Testing saveItems:\n");
+	printf("Your saveItems saved the following in test.txt: \n");
+	saveItems(GI, "test.txt", 3);
+	prnFile();
+
+	printf("*******************************\nThey have to match the following:\n");
+	printf("275,10,2,4.40,0,Royal Gala Apples\n");
+	printf("386,20,4,5.99,0,Honeydew Melon\n");
+	printf("240,30,5,3.99,0,Blueberries\n");
+	printf("***********END Testing saveItems!\n\n\n");
+	pause();
+
+
+	//================++GOOD
+
+	printf("***********Testing loadItems:\n");
+	printf("Your loadItems loaded the following from test.txt: \n");
+	loadItems(IN, "test.txt", &n);
+
+	for (i = 0; i < n; i++) {
+		displayItem(IN[i], LINEAR);
+	}
+
+	printf("*******************************\nThey have to match the following:\n");
+	printf("|275|Royal Gala Apples   |    4.40|   No|  10 |   2 |       44.00|\n");
+	printf("|386|Honeydew Melon      |    5.99|   No|  20 |   4 |      119.80|\n");
+	printf("|240|Blueberries         |    3.99|   No|  30 |   5 |      119.70|\n");
+	printf("***********END Testing loadItems!\n\n\n");
+	pause();
+
+	printf("Done!\n");
+
+	return 0;
 }
