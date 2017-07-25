@@ -945,21 +945,6 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 
 }
 
-
-
-void prnFile() {
-	FILE* tp = fopen("test.txt", "r");
-	char ch;
-	if (tp) {
-		for (; fscanf(tp, "%c", &ch) == 1; putchar(ch));
-		fclose(tp);
-	}
-	else {
-		printf("test.txt not found\n");
-	}
-}
-
-
 int main(void) {
 	GroceryInventorySystem();
 	return 0;
