@@ -886,30 +886,28 @@ int saveItems(const struct Item item[], char fileName[], int NoOfRecs) {
 
 int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 
-	int count = *NoOfRecsPtr;
+	int count = 0;
 
-	//printf("count %d\n", count);
-
-//	printf("noRecs %d\n", *NoOfRecsPtr);
+	struct Item temp;
 
 	FILE *fp = fopen(fileName, "r");
 
-	//printf("%d,%d,%d,%.2lf,%c,%s\n", item.sku, item.quantity, item.minQuantity, item.price, item.isTaxed, item.name);
-
-	//printf("is true %d\n", isTrue);
 
 	if (fp != NULL) {
 
+		while (fscanf(fp, "%d,%d,%d,%lf,%d, %20[^\n]", &temp.sku, &temp.quantity, &temp.minQuantity, &temp.price, &temp.isTaxed, temp.name) != EOF) {
+			count++;
+
+		}
+	
+		rewind(fp);
+
 		int i = 0;
 
-		for (i = 0; i < *NoOfRecsPtr + 1; i++) {
+		for (i = 0; i < count; i++) {
+
 			loadItem(&item[i], fp);
-		//	printf("%d,%d,%d,%lf,%d, %s\n", item[count].sku, item[count].quantity, item[count].minQuantity, item[count].price, item[count].isTaxed, item[count].name);
-			count++;
-			printf("count %d\n", count);
-
-
-
+	
 		}
 
 		*NoOfRecsPtr = count;
@@ -918,10 +916,6 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 
 	fclose(fp);
 
-//	printf("%d,%d,%d,%lf,%d, %20[\n]\n", item[count].sku, item[count].quantity, item[count].minQuantity, item[count].price, item[count].isTaxed, item[count].name);
-
-
-	//printf("count %d\n", count);
 
 	printf("noRecs %d\n", *NoOfRecsPtr);
 
