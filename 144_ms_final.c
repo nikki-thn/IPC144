@@ -2,10 +2,10 @@
 Name: Nikki Truong
 ID: 112 314 174
 IPC144 - Section H
-Milestone Project - Part 3
+Milestone Project - Final
 */
 
-/* Part 4 */
+/* Final Assembly */
 
 #include<stdio.h>
 
@@ -17,7 +17,7 @@ Milestone Project - Part 3
 #define SKU_MAX 999
 #define SKU_MIN 100
 #define MAX_ITEM_NO 500
-#define DATAFILE "144_fp_items.txt"
+#define DATAFILE "test.txt"
 
 
 //declare constants
@@ -325,6 +325,7 @@ void GroceryInventorySystem(void) {
 	int option;
 	int NoOfRecs = 0;
 	int fail = 0;
+
 	struct Item items[MAX_ITEM_NO];
 
 	welcome();
@@ -349,14 +350,14 @@ void GroceryInventorySystem(void) {
 				break;
 
 			case 1:
-			
+
 				listItems(items, NoOfRecs);
 				pause();
 				break;
 
 			case 2:
-			
-				search(items, NoOfRecs)
+
+				search(items, NoOfRecs);
 				pause();
 				break;
 
@@ -860,7 +861,7 @@ int loadItem(struct Item* temp, FILE* dataFile) {
 	struct Item item = { 0 };
 
 	rv = fscanf(dataFile, "%d,%d,%d,%lf,%d, %20[^\n]", &item.sku, &item.quantity, &item.minQuantity, &item.price, &item.isTaxed, item.name);
-	
+
 	if (rv == 6) {
 
 		isTrue = 1;
@@ -921,7 +922,7 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 			count++;
 
 		}
-	
+
 		rewind(fp);
 
 		int i = 0;
@@ -929,7 +930,7 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 		for (i = 0; i < count; i++) {
 
 			loadItem(&item[i], fp);
-	
+
 		}
 
 		*NoOfRecsPtr = count;
@@ -938,14 +939,14 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 
 	fclose(fp);
 
-
-//	printf("noRecs %d\n", *NoOfRecsPtr);
-
 	return 1;
 
 }
 
+
 int main(void) {
+
 	GroceryInventorySystem();
+
 	return 0;
 }
