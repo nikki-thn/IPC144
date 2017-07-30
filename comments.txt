@@ -1,0 +1,21 @@
+/*
+  Name: Nikki Truong
+  ID: 112 314 174
+  Milestone Project - Comments
+ */
+ 
+ In milestone 2, I was having trouble with round up numbers to match the output. I was able to fix it using ceil() function. However, ceil() is only 
+ available with <math.h> library which I cannot use due to the submitter program on Matrix. To fix the problem, I wrote a function called
+ roundUp (line 451 - 465 in 144_ms2.c file) that replicates ceil() using the logic I found on google. The link was cited on the Milesstone 2
+ in line 452 with explaination. Author name was not found.
+ 
+ Other than that, I only used IPC textbook as main source for my logic, code examples and references. Some function such as
+ clearKeyboard was taken from the textbook.
+ 
+ No enhanced features were added. Outputs were strictly enforced by submitter.
+ 
+ Credits:
+ 
+ Website: Stackoverflow. Link: https://stackoverflow.com/questions/8377412/ceil-function-how-can-we-implement-it-ourselves
+ 
+ 
