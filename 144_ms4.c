@@ -448,14 +448,34 @@ struct Item itemEntry(int sku) {
 }
 
 
+//I found this function on google as I was unable to use ceil() 
+//Link: https://stackoverflow.com/questions/8377412/ceil-function-how-can-we-implement-it-ourselves
+//This function will round up the last 2 digits of a double
+
+int roundUp(double price) {
+
+	int temp = (int)price;
+
+	if (price == (float)temp) {
+
+		return temp;
+
+	}
+	return temp + 1;
+}
+
 //Function displays items in two forms: linear and non-linear
 void displayItem(struct Item item, int linear) {
 
 	double totalPrice = 0;
 	int lowQuantity = 0;
 	int taxDisplay = 0;
+	int temp = 0;
 
 	totalPrice = totalAfterTax(item);
+	temp = roundUp((totalPrice) * 1000.00); //roundUp function is called to avoid truncate by compiler
+	totalPrice = temp / 1000.00; //return totalPrice in double with rounded up value
+
 	lowQuantity = isLowQuantity(item);
 
 	//This is the linear form, we divide further into two cases: low quantity and normal quantity
@@ -466,9 +486,12 @@ void displayItem(struct Item item, int linear) {
 		taxDisplay = item.isTaxed;
 
 		if (taxDisplay == 1) {
+
 			printf("  Yes|");
 		}
+
 		else if (taxDisplay == 0) {
+
 			printf("   No|");
 		}
 
@@ -482,10 +505,12 @@ void displayItem(struct Item item, int linear) {
 		}
 
 		else if (lowQuantity == 0) {
+
 			printf("\n");
 		}
 
 	}
+
 	//Display item in non-linear form, again we divide it in two cases
 	if (linear == 0) {
 
@@ -497,20 +522,17 @@ void displayItem(struct Item item, int linear) {
 		if (taxDisplay == 1) {
 
 			printf("   Is Taxed: Yes\n");
-
 		}
 
 		else if (taxDisplay == 0) {
 
 			printf("   Is Taxed: No\n");
-
 		}
 
 		//when quantity is low, show alert message
 		if (lowQuantity == 1) {
 
 			printf("WARNING: Quantity low, please order ASAP!!!\n");
-
 		}
 	}
 }
@@ -820,15 +842,16 @@ void adjustQuantity(struct Item item[], int NoOfRecs, int stock) {
 
 /* PART 4 */
 
-void saveItem(struct Item item, FILE* dataFile) {
+// This function will print data to a file in the set format
 
-	//printf("Elements are followed %d,%d,%d,%.2lf,%c,%s\n", item.sku, item.quantity, item.minQuantity, item.price, item.isTaxed, item.name);
+void saveItem(struct Item item, FILE* dataFile) {
 
 	fprintf(dataFile, "%d,%d,%d,%.2lf,%d,%s\n", item.sku, item.quantity, item.minQuantity, item.price, item.isTaxed, item.name);
 }
 
 
-
+/* This function will read data from a file, if data are succesfully scanned and the formats are corrected
+then save the data to struct Item which was passed from caller*/
 int loadItem(struct Item* temp, FILE* dataFile) {
 
 	int isTrue = 0;
@@ -839,6 +862,7 @@ int loadItem(struct Item* temp, FILE* dataFile) {
 
 	rv = fscanf(dataFile, "%d,%d,%d,%lf,%d, %20[^\n]", &item.sku, &item.quantity, &item.minQuantity, &item.price, &item.isTaxed, item.name);
 	
+	// rv represented the number of successful scan, if scanned was successed, return 1
 	if (rv == 6) {
 
 		isTrue = 1;
@@ -852,7 +876,8 @@ int loadItem(struct Item* temp, FILE* dataFile) {
 }
 
 
-
+/* saveItems function will open a file in write mode, then call saveItem to write to file the data
+was passed from caller */
 int saveItems(const struct Item item[], char fileName[], int NoOfRecs) {
 
 	int isTrue = 1;
@@ -860,10 +885,13 @@ int saveItems(const struct Item item[], char fileName[], int NoOfRecs) {
 
 	int rv = 1;
 
+	//open file in write mode
 	FILE *fp = fopen(fileName, "w+");
 
+	//If file was opened successfully
 	if (fp != NULL) {
 
+		//Write data that was passed from caller one by one, up to NoOfRecs
 		for (i = 0; i < NoOfRecs; i++) {
 
 			saveItem(item[i], fp);
@@ -871,6 +899,7 @@ int saveItems(const struct Item item[], char fileName[], int NoOfRecs) {
 		}
 	}
 
+	//If file cannot open, return 0
 	else if (fp == NULL) {
 
 		rv = 0;
@@ -883,6 +912,8 @@ int saveItems(const struct Item item[], char fileName[], int NoOfRecs) {
 }
 
 
+/* Similar to saveItems function, loadItems will open a file in read mode, then call loadItem to 
+read in data from a file to a struct was passed from caller */
 
 int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 
@@ -892,18 +923,22 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 
 	FILE *fp = fopen(fileName, "r");
 
-
+	//When file was opened correctly
 	if (fp != NULL) {
 
+		//scan in data from file
 		while (fscanf(fp, "%d,%d,%d,%lf,%d, %20[^\n]", &temp.sku, &temp.quantity, &temp.minQuantity, &temp.price, &temp.isTaxed, temp.name) != EOF) {
+			
+			//Keep track the number of records read in
 			count++;
 
 		}
-	
+		
 		rewind(fp);
 
 		int i = 0;
 
+		//Scan in data one record at a time, and save it to struct that was passed by caller
 		for (i = 0; i < count; i++) {
 
 			loadItem(&item[i], fp);
@@ -916,13 +951,9 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 
 	fclose(fp);
 
-
-	printf("noRecs %d\n", *NoOfRecsPtr);
-
 	return 1;
 
 }
-
 
 
 void prnFile() {
