@@ -17,7 +17,7 @@ Milestone Project - Part 4
 #define SKU_MAX 999
 #define SKU_MIN 100
 #define MAX_ITEM_NO 500
-#define DATAFILE "144_fp_items.txt"
+#define DATAFILE "test.txt"
 
 
 //declare constants
@@ -341,13 +341,13 @@ void GroceryInventorySystem(void) {
 	if (fail == 1) {
 
 		while (flag == 0) {
-			
+
 			option = menu();
 
 			switch (option) {
 
 			case 0:
-				
+
 				printf("Exit the program? (Y)es/(N)o: ");
 				flag = yes();
 				break;
@@ -367,9 +367,9 @@ void GroceryInventorySystem(void) {
 			case 3:
 
 				adjustQuantity(items, NoOfRecs, CHECKOUT);
-				
+
 				fail = saveItems(items, DATAFILE, NoOfRecs);
-				
+
 				if (fail == 0) {
 
 					printf("Could not update data file %s\n", DATAFILE);
@@ -379,13 +379,13 @@ void GroceryInventorySystem(void) {
 				break;
 
 			case 4:
-				
+
 				adjustQuantity(items, NoOfRecs, STOCK);
 				pause();
 				break;
 
 			case 5:
-				
+
 				addOrUpdateItem(items, &NoOfRecs);
 				pause();
 				break;
@@ -573,6 +573,7 @@ void displayItem(struct Item item, int linear) {
 void listItems(const struct Item item[], int noOfItems) {
 
 	double grandTotal = 0;
+	double total = 0;
 	int n = 0;
 
 	printTitle();
@@ -581,6 +582,9 @@ void listItems(const struct Item item[], int noOfItems) {
 
 		printf("%-3d ", n + 1);
 		displayItem(item[n], 1);
+		total = totalAfterTax(item[n]);
+		grandTotal += total;
+
 	}
 
 	printFooter(grandTotal);
@@ -893,7 +897,7 @@ int loadItem(struct Item* temp, FILE* dataFile) {
 	struct Item item = { 0 };
 
 	rv = fscanf(dataFile, "%d,%d,%d,%lf,%d, %20[^\n]", &item.sku, &item.quantity, &item.minQuantity, &item.price, &item.isTaxed, item.name);
-	
+
 	// rv represented the number of successful scan, if scanned was successed, return 1
 	if (rv == 6) {
 
@@ -943,7 +947,7 @@ int saveItems(const struct Item item[], char fileName[], int NoOfRecs) {
 }
 
 
-/* Similar to saveItems function, loadItems will open a file in read mode, then call loadItem to 
+/* Similar to saveItems function, loadItems will open a file in read mode, then call loadItem to
 read in data from a file to a struct was passed from caller */
 
 int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
@@ -959,12 +963,12 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 
 		//scan in data from file
 		while (fscanf(fp, "%d,%d,%d,%lf,%d, %20[^\n]", &temp.sku, &temp.quantity, &temp.minQuantity, &temp.price, &temp.isTaxed, temp.name) != EOF) {
-			
+
 			//Keep track the number of records read in
 			count++;
 
 		}
-		
+
 		rewind(fp);
 
 		int i = 0;
@@ -973,7 +977,7 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 		for (i = 0; i < count; i++) {
 
 			loadItem(&item[i], fp);
-	
+
 		}
 
 		*NoOfRecsPtr = count;
