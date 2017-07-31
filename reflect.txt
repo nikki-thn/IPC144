@@ -1,0 +1,13 @@
+Name : Nikki Truong
+ID   : 112 314 174
+IPC144 - Workshop 10 - At home
+
+1) C-style string is a string that has a contigent memory. Array of chars is an array of the char type, while string looks like this "string", array looks like this "s t r i n g"
+
+2) scanf("%10s", address)
+
+3) strcmp compare the value of each character in a string one by one by comparing their ASCII value, then substract that value, if they match, the result of the subtraction is 0. Hence, the 0 return value
+
+4) 7, "Hello" takes up 5 bytes, one byte for each character, C adds one byte and \0 takes another byte.
+
+
