@@ -1,0 +1,26 @@
+/*
+Name: Nikki Truong - 112 314 174
+IPC144 - Workshop 10 - Survey
+*/
+
+1) All topics are interesting to me. Personally, I find pointers are the most interesting, then the concept of buffer. We are likely to take things for granted. Learning programming teaches me to think about how computers, memory and coding put together to run a program. It is interesting to know that everything we see, type in, come out of a computer is storing somewhere and nothing come out of nowhere.
+
+2) Quizzes have their purposes, and I find them helpful in a few ways. They enforce me to complete my readings and understand the materials before coming to class. Also being prepared for class materials, I can participate in class and further reinforce what I learnt. 
+
+3) I really like the way the course is taught and how the hours in class divided. Programming requires practice, and I find enough time to understand the materials, reinforce them from the lab, yet enough time to spend practicing more with at-home portion. The supplement course is fun and informative. Overall, the course is practical, challenging enough and useful all the way. I would recommend Seneca to my friends if I had any.
+
+4) No, there is nothing I dislike about the course. However, the later half of the course is a bit heavier. It was a bit stressful for me. Especially when combining with other courses that are also have more works in the later part of the semester.  
+
+5) I would like to walk out of the course prepared and ready for the next level. If by completing the course, I could archive that, then I have nothing else to add. 
+
+6) Adequate. There are some hits and miss and there are some concepts I am not fully and thoroughly understand.
+
+7) Workshops are enjoyable, challenging and very helpful. I find them essential to complement the reading materials and they give me some directions of what to pay attentions to and how to apply the topics covered by the textbook. 
+
+8) Just right. I don’t really know. I hope we have covered enough.
+
+9) Yes, I enjoy the supplemental course and I find it very informative and introduce us to real-world thinking side of programming.
+
+10) I feel like it helps me think more as someone who will be working as a programmer and that makes the course useful. I get to learn about the world and real-life applications of programming which gives me a big picture of how my codes fit in in the scheme of things.
+
+
