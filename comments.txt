@@ -14,7 +14,7 @@ In addition, I use IPC textbook and my workshops exercise as main source for my 
  
 ENHANCEMENT:
 
-Functions for option 6 (Delete items) and 7 (Search by named) are implemented. I also have modified the code so that when items are added or updated, changes will be saved onto the file.
+Functions for option 6 (Delete items) and 7 (Search by named) are implemented. Details are comment in 144_ms_enhancement.c. I also have modified the code so that when new items are added or existing items are updated, changes will be saved onto the file.
 
 
 LINKS:
