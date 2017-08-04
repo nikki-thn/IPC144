@@ -2,10 +2,10 @@
 Name: Nikki Truong
 ID: 112 314 174
 IPC144 - Section H
-Milestone Project - Part 4
+Milestone Project - Bonus part
 */
 
-/* Part 4 */
+/* BONUS PART */
 
 #include<stdio.h>
 #include<string.h>
@@ -34,15 +34,6 @@ struct Item {
 	int minQuantity;
 	char name[21];
 };
-
-
-// tester prototypes
-void searchTest();
-void updateTest();
-void addTest();
-void addOrUpdateTest();
-void adjustQtyTest();
-
 
 // ---------------------------------------
 // Function PROTOTYPES goes here...
@@ -199,6 +190,7 @@ int getIntLimited(int lowerLimit, int upperLimit) {
 		//If input is within limits, exit loop
 
 		else {
+
 			done = 0;
 		}
 
@@ -783,6 +775,8 @@ void addOrUpdateItem(struct Item item[], int* NoOfRecs) {
 		addItem(item, NoOfRecs, sku);
 	}
 
+	saveItems(item, DATAFILE, *NoOfRecs);
+
 }
 
 
@@ -1043,88 +1037,95 @@ void searchByName(void) {
 		fclose(fp);
 	}
 }
-//put gitbackup/IPC144/144_ms_final_2.c
 
 /*This function will look for item by sku, delete item found and save it to file */
 void deleteItems(struct Item item[], int *NoOfRecs) {
 
+	int index = -1;
 	int count = *NoOfRecs;
-
-	printf("NoOfRecs %d", count);
-
-	struct Item temp[5] = { 0 };
-
+	int ans = 0;
 	int sku = 0;
-
 	int i = 0;
-	int index;
+	int j = 0;
+	int l = 0;
+
+
+	struct Item temp[MAX_ITEM_NO] = { 0 };
 
 	printf("Please enter SKU to delete: ");
-	scanf("%d", &sku);
-
-	flushKeyboard();
+	sku = getIntLimited(SKU_MIN, SKU_MAX);
 
 	FILE *fp = fopen(DATAFILE, "r+");
 
-	//If condition was met, display entries
+	//If file is not empty, read in values
 	if (fp != NULL) {
 
 		for (i = 0; i < *NoOfRecs; i++) {
 
 			fscanf(fp, "%d,%d,%d,%lf,%d, %20[^\n]", &temp[i].sku, &temp[i].quantity, &temp[i].minQuantity, &temp[i].price, &temp[i].isTaxed, temp[i].name);
 
+			//If match is found, save the index value
 			if (temp[i].sku == sku) {
 
-				printf("%d,%d,%d,%.2lf,%d,%s\n", temp[i].sku, temp[i].quantity, temp[i].minQuantity, temp[i].price, temp[i].isTaxed, temp[i].name);
 				index = i;
-
 			}
 
 		}
 
-		displayItem(temp[index], FORM);
+		//If item is not in the system, display error message
+		if (index < 0) {
 
-		int ans;
-
-		printf("Confirm to delete item SKU \"%d\"? (Y)es/(N)o\n");
-		ans = yes();
-
-		if (ans == 1) {
-			int j = 0;
-
-			for (j = index; j < count; j++) {
-
-				temp[j] = temp[j + 1];
-
-			}
-
-			count--;
-
-			int l = 0;
-
-			for (l = 0; l < count; l++) {
-
-				item[l] = temp[l];
-
-			}
-
-			*NoOfRecs = count;
-
-			saveItems(item, DATAFILE, count);
-
-			printf("--== Item deleted! ==--\n");
-
-			fclose(fp);
+			printf("Item not found! Aborted!!\n");
 
 		}
 
+		if (index >= 0) {
 
-		else if (ans == 0) {
+			//Print item that is matched
+			displayItem(temp[index], FORM);
 
-			printf("--== Aborted! ==--\n");
+			//Ask user to confirmn deletion
+			printf("Confirm to delete item SKU \"%d\" (Y)es/(N)o? ", sku);
+			ans = yes();
+
+			//If user confirm to delete
+			if (ans == 1) {
+
+				//Move element of matched item by one index higher
+				for (j = index; j < *NoOfRecs; j++) {
+
+					temp[j] = temp[j + 1];
+
+				}
+
+				count--;
+
+				//save changes
+				for (l = 0; l < count; l++) {
+
+					item[l] = temp[l];
+
+				}
+
+				*NoOfRecs = count;
+				//save changes to the file
+				saveItems(item, DATAFILE, *NoOfRecs);
+
+				printf("--== Item deleted! ==--\n");
+
+				fclose(fp);
+
+			}
+
+			else if (ans == 0) {
+
+				printf("--== Aborted! ==--\n");
+			}
 		}
+
 	}
 }
+
 
 
 int main(void) {
