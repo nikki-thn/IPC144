@@ -18,7 +18,7 @@ Milestone Project - Bonus part
 #define SKU_MAX 999
 #define SKU_MIN 100
 #define MAX_ITEM_NO 500
-#define DATAFILE "test.txt"
+#define DATAFILE "144_fp_items.txt"
 
 
 //declare constants
