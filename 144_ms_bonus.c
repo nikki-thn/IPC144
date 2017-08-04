@@ -79,7 +79,7 @@ int saveItems(const struct Item item[], char fileName[], int NoOfRecs);
 int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr);
 
 //--- BONUS PART ---
-//void deleteItems(struct Item item[], int *NoOfRecs);
+void deleteItems(struct Item item[], int *NoOfRecs);
 void searchByName(void);
 
 
@@ -397,7 +397,7 @@ void GroceryInventorySystem(void) {
 
 			case 6:
 				//Delete item
-				//deleteItems(items, &NoOfRecs);
+				deleteItems(items, &NoOfRecs);
 				pause();
 				break;
 
@@ -996,54 +996,18 @@ int loadItems(struct Item item[], char fileName[], int* NoOfRecsPtr) {
 
 }
 
-/*void deleteItems(struct Item item1[], int *NoOfRecs) {
-
-
-	struct Item temp [100] = { 0 };
-
-	int sku = 0;
-
-	int i = 0;
-
-	printf("Please enter SKU to delete\n");
-	scanf("%d", &sku);
-
-	FILE *fp = fopen(DATAFILE, "r");
-
-	//If condition was met, display entries
-	if (fp != NULL){
-
-		for (i = 0; i < *NoOfRecs; i++){
-			
-			fscanf(fp, "%d,%d,%d,%lf,%d, %20[^\n]", &temp.sku, &temp.quantity, &temp.minQuantity, &temp.price, &temp.isTaxed, temp.name) != EOF;
-			
-			if (temp.sku == sku) {
-				printf("%d,%d,%d,%lf,%d,%s\n", temp.sku, temp.quantity, temp.minQuantity, temp.price, temp.isTaxed, temp.name);
-				printf("%d", i);
-			}
-			
-		}
-
-		fclose(fp);
-	}
-
-} */
-
-
-
-
 
 
 //The function will search for item by name, then display item data in NON-LINEAR format
 
-void searchByName (void) {
+void searchByName(void) {
 
 	struct Item temp = { 0 };
 
 	char name[21];
 
 	int match = 0;
-	
+
 	printf("Please item name to search: ");
 	scanf("%20[^\n]", name);
 
@@ -1060,23 +1024,105 @@ void searchByName (void) {
 			match = strcmp(temp.name, name);
 
 		}
-			//If match is found, display item
-			if (match == 0) {
+		//If match is found, display item
+		if (match == 0) {
 
-				printf("\nItem named %s is found:\n", temp.name);
-				displayItem(temp, FORM);
-				printf("\n");
+			printf("\nItem named %s is found:\n", temp.name);
+			displayItem(temp, FORM);
+			printf("\n");
 
-			}
+		}
 
-			//If match is not found, display error message
-			if (match != 0) {
+		//If match is not found, display error message
+		if (match != 0) {
 
-				printf("Item name \"%s\" is not found. Please ensure the name is correct.\n\n", name);
+			printf("Item name \"%s\" is not found. Please ensure the name is correct.\n\n", name);
 
-			}
+		}
 
 		fclose(fp);
+	}
+}
+//put gitbackup/IPC144/144_ms_final_2.c
+
+/*This function will look for item by sku, delete item found and save it to file */
+void deleteItems(struct Item item[], int *NoOfRecs) {
+
+	int count = *NoOfRecs;
+
+	printf("NoOfRecs %d", count);
+
+	struct Item temp[5] = { 0 };
+
+	int sku = 0;
+
+	int i = 0;
+	int index;
+
+	printf("Please enter SKU to delete: ");
+	scanf("%d", &sku);
+
+	flushKeyboard();
+
+	FILE *fp = fopen(DATAFILE, "r+");
+
+	//If condition was met, display entries
+	if (fp != NULL) {
+
+		for (i = 0; i < *NoOfRecs; i++) {
+
+			fscanf(fp, "%d,%d,%d,%lf,%d, %20[^\n]", &temp[i].sku, &temp[i].quantity, &temp[i].minQuantity, &temp[i].price, &temp[i].isTaxed, temp[i].name);
+
+			if (temp[i].sku == sku) {
+
+				printf("%d,%d,%d,%.2lf,%d,%s\n", temp[i].sku, temp[i].quantity, temp[i].minQuantity, temp[i].price, temp[i].isTaxed, temp[i].name);
+				index = i;
+
+			}
+
+		}
+
+		displayItem(temp[index], FORM);
+
+		int ans;
+
+		printf("Confirm to delete item SKU \"%d\"? (Y)es/(N)o\n");
+		ans = yes();
+
+		if (ans == 1) {
+			int j = 0;
+
+			for (j = index; j < count; j++) {
+
+				temp[j] = temp[j + 1];
+
+			}
+
+			count--;
+
+			int l = 0;
+
+			for (l = 0; l < count; l++) {
+
+				item[l] = temp[l];
+
+			}
+
+			*NoOfRecs = count;
+
+			saveItems(item, DATAFILE, count);
+
+			printf("--== Item deleted! ==--\n");
+
+			fclose(fp);
+
+		}
+
+
+		else if (ans == 0) {
+
+			printf("--== Aborted! ==--\n");
+		}
 	}
 }
 
