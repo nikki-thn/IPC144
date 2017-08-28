@@ -1,9 +1,7 @@
 // Name: Nikki Truong	
 // StudentID: 112314174
 // IPC144 Summer 2017 - Section: H
-// Workshop: 4 - Array - In-lab
-
-//Fix invalid low greater than High issue
+// Workshop: 4 - Array - Enhancement
 
 //This program will ask for number of days from user, low and high temperature values from each day
 //and prompt back the temperature values of each day in columns. 
@@ -96,20 +94,20 @@ int main(void) {
 	while (done == 1) {
 
 		//prompt input number of days from user to calculate average temperature 
-		printf("Enter a number between 1 and 4 to see the average temperature for the entered number of days, enter a negative number to exit: ");
+		printf("Enter a number between 1 and %d to see the average temperature for the entered number of days, enter a negative number to exit: ", numDay);
 		scanf("%d", &avgDay);
 		printf("\n");
 
 		//conditions check if the input is in range
 		//If conditions are failed, prompt for re-input days
 		if (avgDay > 4) {
-			printf("Invalid entry, please enter a number between 1 and 4, inclusive: ");
+			printf("Invalid entry, please enter a number between 1 and %d, inclusive: ", numDay);
 			scanf("%d", &avgDay);
 			printf("\n");
 		}
 
 		//If conditions are met, then calculate the total
-		if (avgDay >= 1 && avgDay <= 4) {
+		if (avgDay >= 1 && avgDay <= numDay) {
 			int k;
 			double average = 0;
 			int totalHigh = 0, totalLow = 0;
