@@ -3,6 +3,8 @@
 // IPC144 Summer 2017 - Section: H
 // Workshop: 4 - Array - In-lab
 
+//Fix invalid low greater than High issue
+
 //This program will ask for number of days from user, low and high temperature values from each day
 //and prompt back the temperature values of each day in columns. 
 //The second part display highest and lowest temperature and correspondent day
@@ -40,6 +42,20 @@ int main(void) {
 		scanf("%d", &high[i]);
 		printf("Day %d - Low: ", i + 1);
 		scanf("%d", &low[i]);
+
+		while (high[i] < low[i]) {
+
+			printf("Invalid temperature, high must be greater than low\n");
+
+			printf("Day %d - High: ", i + 1);
+			scanf("%d", &high[i]);
+
+			printf("Day %d - Low: ", i + 1);
+			scanf("%d", &low[i]);
+
+		}
+
+
 	}
 
 	//Print output using another for loop
@@ -49,16 +65,16 @@ int main(void) {
 	for (j = 0; j < numDay; j++) {
 		printf("%d	%d	%d\n", j + 1, high[j], low[j]);
 	}
-	
+
 	printf("\n");
-	
+
 	//Initialize the highest and lowest values
 	int highest = high[0];
 	int lowest = low[0];
-	
+
 	//This loop using if statement will compare and assign the highest values of all temperature inputs plus records the day it falls into
 	int l = 0;
-	for (l = 0; l < numDay; l++){
+	for (l = 0; l < numDay; l++) {
 		if (high[l] >= highest) {
 			highest = high[l];
 			dayHigh = l + 1;
