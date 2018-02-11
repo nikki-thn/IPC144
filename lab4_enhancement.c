@@ -100,7 +100,7 @@ int main(void) {
 
 		//conditions check if the input is in range
 		//If conditions are failed, prompt for re-input days
-		while (avgDay > 4 || avgDay < 1) {
+		if (avgDay > 4) {
 			printf("Invalid entry, please enter a number between 1 and %d, inclusive: ", numDay);
 			scanf("%d", &avgDay);
 			printf("\n");
@@ -123,7 +123,7 @@ int main(void) {
 		}
 
 		//User enter a negative number to exit
-		if (avgDay < 0) {
+		if (avgDay < 1) {
 			done = 0;
 		}
 	}
